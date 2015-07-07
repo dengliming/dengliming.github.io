@@ -1,0 +1,376 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>redis之sds动态字符串 | Dengliming&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="dengliming">
+    
+    <meta name="description" content="redis之sds动态字符串
+redis定义redis源码中sds的结构是这样的：1 /*&amp;#10; * &amp;#20445;&amp;#23384;&amp;#23383;&amp;#31526;&amp;#20018;&amp;#23545;&amp;#35937;&amp;#30340;&amp;#32467;&amp;#26500;&amp;#10; */&amp;#10;stru">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml" title="Dengliming&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+	
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1bef68316a9192173bdb793814b15267";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+</head>
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Dengliming&#39;s Blog" title="Dengliming&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Dengliming&#39;s Blog">Dengliming&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+					<li>
+					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="st-default-search-input" maxlength="20" placeholder="Search" />
+						</form>
+					
+					</li>
+				</ul>
+			</nav>		
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','SsRzvS4gtGNixVLBdjes','2.0.0');
+</script>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/06/redis之sds动态字符串/" title="redis之sds动态字符串" itemprop="url">redis之sds动态字符串</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://dengliming.github.io" title="dengliming">dengliming</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-07-06T15:30:51.000Z" itemprop="datePublished">2015-07-06</time>
+    更新日期:<time datetime="2015-07-07T16:19:33.000Z" itemprop="dateModified">2015-07-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#redis之sds动态字符串"><span class="toc-number">1.</span> <span class="toc-text">redis之sds动态字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#redis定义"><span class="toc-number">1.1.</span> <span class="toc-text">redis定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#api之sdslen"><span class="toc-number">1.2.</span> <span class="toc-text">api之sdslen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#api之sdsfree"><span class="toc-number">1.3.</span> <span class="toc-text">api之sdsfree</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#api之sdsclear"><span class="toc-number">1.4.</span> <span class="toc-text">api之sdsclear</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#api之sdscat"><span class="toc-number">1.5.</span> <span class="toc-text">api之sdscat</span></a></li></ol></li></ol>
+		</div>
+		
+		<h1 id="redis之sds动态字符串">redis之sds动态字符串</h1><hr>
+<h2 id="redis定义">redis定义</h2><p>redis源码中sds的结构是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> /*&#10; * &#20445;&#23384;&#23383;&#31526;&#20018;&#23545;&#35937;&#30340;&#32467;&#26500;&#10; */&#10;struct sdshdr &#123;&#10;&#10;    // buf &#20013;&#24050;&#21344;&#29992;&#31354;&#38388;&#30340;&#38271;&#24230;&#10;    int len;&#10;&#10;    // buf &#20013;&#21097;&#20313;&#21487;&#29992;&#31354;&#38388;&#30340;&#38271;&#24230;&#10;    int free;&#10;&#10;    // &#25968;&#25454;&#31354;&#38388;&#10;    char buf[];&#10;&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>buf最后一个字节保存了空字符’\0’遵循c字符串以空字符结尾的惯例，保存空字符的1字节空间是不记在len里面</p>
+<h2 id="api之sdslen">api之sdslen</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/*&#10; * &#36820;&#22238; sds &#23454;&#38469;&#20445;&#23384;&#30340;&#23383;&#31526;&#20018;&#30340;&#38271;&#24230;&#10; *&#10; * T = O(1)&#10; */&#10;static inline size_t sdslen(const sds s) &#123;&#10;    struct sdshdr *sh = (void*)(s-(sizeof(struct sdshdr)));&#10;    return sh-&#62;len;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>其中要理解这段代码struct sdshdr <em>sh = (void</em>)(s-(sizeof(struct sdshdr)));</p>
+<p>需要回顾下c的一些基础知识：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef struct Node &#123;&#10;    int len;&#10;    char str[];&#10;&#125; Node;&#10;sizeof(char*) = 4&#10;sizeof(Node*) = 4&#10;sizeof(Node2) = 4</span><br></pre></td></tr></table></figure></p>
+<p>前两个是指针所占的字节是由系统的寻址能力有关，以上是32位的，后面那个<br>int len占4个字节，str[]暂未分配内存</p>
+<p>然后看下sds初始化方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sds sdsnewlen(const void *init, size_t initlen) &#123;&#10;&#10;    struct sdshdr *sh;&#10;&#10;    // &#26681;&#25454;&#26159;&#21542;&#26377;&#21021;&#22987;&#21270;&#20869;&#23481;&#65292;&#36873;&#25321;&#36866;&#24403;&#30340;&#20869;&#23384;&#20998;&#37197;&#26041;&#24335;&#10;    // T = O(N)&#10;    if (init) &#123;&#10;        // zmalloc &#19981;&#21021;&#22987;&#21270;&#25152;&#20998;&#37197;&#30340;&#20869;&#23384;&#10;        sh = zmalloc(sizeof(struct sdshdr)+initlen+1);&#10;    &#125; else &#123;&#10;        // zcalloc &#23558;&#20998;&#37197;&#30340;&#20869;&#23384;&#20840;&#37096;&#21021;&#22987;&#21270;&#20026; 0&#10;        sh = zcalloc(sizeof(struct sdshdr)+initlen+1);&#10;    &#125;&#10;&#10;    // &#20869;&#23384;&#20998;&#37197;&#22833;&#36133;&#65292;&#36820;&#22238;&#10;    if (sh == NULL) return NULL;&#10;&#10;    // &#35774;&#32622;&#21021;&#22987;&#21270;&#38271;&#24230;&#10;    sh-&#62;len = initlen;&#10;    // &#26032; sds &#19981;&#39044;&#30041;&#20219;&#20309;&#31354;&#38388;&#10;    sh-&#62;free = 0;&#10;    // &#22914;&#26524;&#26377;&#25351;&#23450;&#21021;&#22987;&#21270;&#20869;&#23481;&#65292;&#23558;&#23427;&#20204;&#22797;&#21046;&#21040; sdshdr &#30340; buf &#20013;&#10;    // T = O(N)&#10;    if (initlen &#38;&#38; init)&#10;        memcpy(sh-&#62;buf, init, initlen);&#10;    // &#20197; \0 &#32467;&#23614;&#10;    sh-&#62;buf[initlen] = &#39;\0&#39;;&#10;&#10;    // &#36820;&#22238; buf &#37096;&#20998;&#65292;&#32780;&#19981;&#26159;&#25972;&#20010; sdshdr&#10;    return (char*)sh-&#62;buf;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里面返回sds的地址只返回了buf部分，所以前面如果我们需要获取sds的长度len需要减去(sizeof(struct sdshdr))个字节</p>
+<h2 id="api之sdsfree">api之sdsfree</h2><p>释放给定的sds<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void sdsfree(sds s) &#123;&#10;    if (s == NULL) return;&#10;    zfree(s-sizeof(struct sdshdr));&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="api之sdsclear">api之sdsclear</h2><p>在不释放 SDS 的字符串空间的情况下，重置 SDS 所保存的字符串为空字符串。T = O(1)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void sdsclear(sds s) &#123;&#10;&#10;    // &#21462;&#20986; sdshdr&#10;    struct sdshdr *sh = (void*) (s-(sizeof(struct sdshdr)));&#10;&#10;    // &#37325;&#26032;&#35745;&#31639;&#23646;&#24615;&#10;    sh-&#62;free += sh-&#62;len;&#10;    sh-&#62;len = 0;&#10;&#10;    // &#23558;&#32467;&#26463;&#31526;&#25918;&#21040;&#26368;&#21069;&#38754;&#65288;&#30456;&#24403;&#20110;&#24816;&#24615;&#22320;&#21024;&#38500; buf &#20013;&#30340;&#20869;&#23481;&#65289;&#10;    sh-&#62;buf[0] = &#39;\0&#39;;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>之所以sh-&gt;free += sh-&gt;len是因为redis的惰性空间释放，也就是当sds缩短时程序并没有立即回收缩短的字节，而是使用free属性记录起来，等待将来的使用，这样的好处就是下一次扩展sds时，就可以直接使用这些未使用的空间，不需要重新分配内存。</p>
+<h2 id="api之sdscat">api之sdscat</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sds sdscat(sds s, const char *t) &#123;&#10;    return sdscatlen(s, t, strlen(t));&#10;&#125;&#10;&#10;sds sdscatlen(sds s, const void *t, size_t len) &#123;&#10;    &#10;    struct sdshdr *sh;&#10;    &#10;    // &#21407;&#26377;&#23383;&#31526;&#20018;&#38271;&#24230;&#10;    size_t curlen = sdslen(s);&#10;&#10;    // &#25193;&#23637; sds &#31354;&#38388;&#10;    // T = O(N)&#10;    s = sdsMakeRoomFor(s,len);&#10;&#10;    // &#20869;&#23384;&#19981;&#36275;&#65311;&#30452;&#25509;&#36820;&#22238;&#10;    if (s == NULL) return NULL;&#10;&#10;    // &#22797;&#21046; t &#20013;&#30340;&#20869;&#23481;&#21040;&#23383;&#31526;&#20018;&#21518;&#37096;&#10;    // T = O(N)&#10;    sh = (void*) (s-(sizeof(struct sdshdr)));&#10;    memcpy(s+curlen, t, len);&#10;&#10;    // &#26356;&#26032;&#23646;&#24615;&#10;    sh-&#62;len = curlen+len;&#10;    sh-&#62;free = sh-&#62;free-len;&#10;&#10;    // &#28155;&#21152;&#26032;&#32467;&#23614;&#31526;&#21495;&#10;    s[curlen+len] = &#39;\0&#39;;&#10;&#10;    // &#36820;&#22238;&#26032; sds&#10;    return s;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<blockquote>
+<ul>
+<li><a href="http://redisbook.com/" target="_blank" rel="external">redis设计与实现</a></li>
+<li><a href="https://github.com/huangz1990/redis-3.0-annotated" target="_blank" rel="external">注释的redis源码</a></li>
+</ul>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/redis/">redis</a><a href="/tags/sds/">sds</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/redis/">redis</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://dengliming.github.io/2015/07/06/redis之sds动态字符串/" data-title="redis之sds动态字符串 | Dengliming&#39;s Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/06/21/新的开始/"  title="新的开始">
+ <strong>下一篇:</strong><br/> 
+ <span>新的开始
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#redis之sds动态字符串"><span class="toc-number">1.</span> <span class="toc-text">redis之sds动态字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#redis定义"><span class="toc-number">1.1.</span> <span class="toc-text">redis定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#api之sdslen"><span class="toc-number">1.2.</span> <span class="toc-text">api之sdslen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#api之sdsfree"><span class="toc-number">1.3.</span> <span class="toc-text">api之sdsfree</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#api之sdsclear"><span class="toc-number">1.4.</span> <span class="toc-text">api之sdsclear</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#api之sdscat"><span class="toc-number">1.5.</span> <span class="toc-text">api之sdscat</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/redis/" title="redis">redis<sup>1</sup></a></li>
+		
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/redis/" title="redis">redis<sup>1</sup></a></li>
+		
+			<li><a href="/tags/sds/" title="sds">sds<sup>1</sup></a></li>
+		
+			<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Make me a bird, i&#39;ll fly away from the truth <br/>
+			Everything is possible</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="https://dengliming.github.io" target="_blank" title="dengliming">dengliming</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"dengliming"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>
