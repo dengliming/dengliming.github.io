@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="https://dengliming.github.io//"/>
-  <updated>2015-12-26T14:39:08.000Z</updated>
+  <updated>2015-12-26T14:42:10.000Z</updated>
   <id>https://dengliming.github.io//</id>
   
   <author>
@@ -16,31 +16,31 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[ʹ��ngrok������Web����ӳ�䵽����]]></title>
+    <title><![CDATA[使用ngrok将本地Web服务映射到外网]]></title>
     <link href="https://dengliming.github.io/2015/12/26/ngrok/"/>
     <id>https://dengliming.github.io/2015/12/26/ngrok/</id>
     <published>2015-12-26T14:35:51.000Z</published>
-    <updated>2015-12-26T14:39:08.000Z</updated>
-    <content type="html"><![CDATA[<p>����ngrok����ͨ���������ʱ�����Ŀ�������������Ƿǳ����õģ���������ƽ����������վ��û���µ����ϣ���������Ҫͨ���������Է��ʵ�����Ӧ�ã��������ԡ�</p>
-<p>�ù���ʹ�÷����ǳ��򵥡�</p>
-<p>������Ҫ���ؿͻ���</p>
-<p>���ص�ַ��<a href="http://www.tunnel.mobi/" target="_blank" rel="external">http://www.tunnel.mobi/</a></p>
+    <updated>2015-12-26T14:42:10.000Z</updated>
+    <content type="html"><![CDATA[<p>利用ngrok可以通过外网访问本地项目，这个对我们是非常有用的，比如我们平常开发的网站还没更新到线上，但是又需要通过外网可以访问到本地应用，方便测试。</p>
+<p>该工具使用方法非常简单。</p>
+<p>首先需要下载客户端</p>
+<p>下载地址：<a href="http://www.tunnel.mobi/" target="_blank" rel="external">http://www.tunnel.mobi/</a></p>
 <p><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122601.jpg" alt="pic_2015122601" title="pic_2015122601"></p>
-<p>�������������ļ���Ȼ���ŵ�ͬһ��Ŀ¼</p>
+<p>下载以上两个文件。然后放到同一个目录</p>
 <p><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122602.png" alt="pic_2015122602" title="pic_2015122602"></p>
-<p>Ȼ���ڸ�Ŀ¼���������д����������<br>ngrok -config ngrok.cfg -subdomain dts 80<br>dtsΪ���õ������� 80�Ǳ�����Ŀ�˿�</p>
-<p>����Ч����<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122603.png" alt="pic_2015122603" title="pic_2015122603"></p>
-<p>����Ч����<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122604.png" alt="pic_2015122604" title="pic_2015122604"></p>
-<p>ע����������<a href="http://www.tunnel.mobi/" target="_blank" rel="external">http://www.tunnel.mobi/</a> �Ѿ����ʲ��� ���������ⱸ�õĿ���ʹ�ã�<a href="http://qydev.com/" target="_blank" rel="external">http://qydev.com/</a><br>����΢��demo�����кܴ�������mark��</p>
+<p>然后在该目录打开命令行窗口输入命令：<br>ngrok -config ngrok.cfg -subdomain dts 80<br>dts为配置的子域名 80是本地项目端口</p>
+<p>本地效果：<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122603.png" alt="pic_2015122603" title="pic_2015122603"></p>
+<p>公网效果：<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122604.png" alt="pic_2015122604" title="pic_2015122604"></p>
+<p>注：最近发现<a href="http://www.tunnel.mobi/" target="_blank" rel="external">http://www.tunnel.mobi/</a> 已经访问不了 不过有另外备用的可以使用：<a href="http://qydev.com/" target="_blank" rel="external">http://qydev.com/</a><br>这个微信demo开发有很大帮助。mark下</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>����ngrok����ͨ���������ʱ�����Ŀ�������������Ƿǳ����õģ���������ƽ����������վ��û���µ����ϣ���������Ҫͨ���������Է��ʵ�����Ӧ�ã��������ԡ�</p>
-<p>�ù�]]>
+    <![CDATA[<p>利用ngrok可以通过外网访问本地项目，这个对我们是非常有用的，比如我们平常开发的网站还没更新到线上，但是又需要通过外网可以访问到本地应用，方便测试。</p>
+<p>该工具使用方法非常简单。</p>
+<p>首先需要下载客户端</p>
+<p>下载地址：<a href="htt]]>
     </summary>
     
       <category term="ngrok" scheme="https://dengliming.github.io/tags/ngrok/"/>
-    
-      <category term="ngrok" scheme="https://dengliming.github.io/categories/ngrok/"/>
     
   </entry>
   
