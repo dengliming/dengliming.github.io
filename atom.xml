@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="https://dengliming.github.io//"/>
-  <updated>2015-12-26T16:59:26.000Z</updated>
+  <updated>2015-12-27T13:20:21.000Z</updated>
   <id>https://dengliming.github.io//</id>
   
   <author>
@@ -14,6 +14,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[XSS与HttpOnly]]></title>
+    <link href="https://dengliming.github.io/2015/12/27/XSS%E4%B8%8EHttpOnly/"/>
+    <id>https://dengliming.github.io/2015/12/27/XSS与HttpOnly/</id>
+    <published>2015-12-27T13:12:51.000Z</published>
+    <updated>2015-12-27T13:20:21.000Z</updated>
+    <content type="html"><![CDATA[<p>1.什么是HttpOnly?</p>
+<p>如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索</p>
+<p>2.HttpOnly的设置样例</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader("Set-Cookie", "cookiename=value;</span><br><span class="line">Path=/;Domain=domainvalue;Max-Age=seconds;HTTPOnly");</span><br></pre></td></tr></table></figure>
+<p>具体参数的含义再次不做阐述，设置完毕后通过js脚本是读不到该cookie的，但使用如下方式可以读取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie cookies[]=request.getCookies();</span><br></pre></td></tr></table></figure>
+<p>下面测试一下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language="java" contentType="text/html; charset=UTF-8"</span><br><span class="line">	pageEncoding="UTF-8"%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;</span><br><span class="line">&lt;title&gt;Insert title here&lt;/title&gt;</span><br><span class="line">&lt;%</span><br><span class="line">	response.setHeader("Set-Cookie",</span><br><span class="line">			"sessionId=abc;Path=/;Max-Age=20*60*1000;");</span><br><span class="line">%&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;script&gt;</span><br><span class="line">		alert(getCookie('sessionId'));</span><br><span class="line">		//读取cookies</span><br><span class="line">		function getCookie(name) &#123;</span><br><span class="line">			var nameEQ = name + "=";</span><br><span class="line">			var ca = document.cookie.split(';');</span><br><span class="line">			for (var i = 0; i &lt; ca.length; i++) &#123;</span><br><span class="line">				var c = ca[i];</span><br><span class="line">				while (c.charAt(0) == ' ')</span><br><span class="line">					c = c.substring(1, c.length);</span><br><span class="line">				if (c.indexOf(nameEQ) == 0)</span><br><span class="line">					return c.substring(nameEQ.length, c.length);</span><br><span class="line">			&#125;</span><br><span class="line">			return null;</span><br><span class="line">		&#125;</span><br><span class="line">	&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果为： abc<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122702.png" alt=""></p>
+<p>下面改成HttpOnly看看<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(<span class="string">"Set-Cookie"</span>,</span><br><span class="line">			<span class="string">"sessionId=abc;Path=/;Max-Age=20*60*1000;HttpOnly"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>运行结果为：null<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122701.png" alt=""></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>1.什么是HttpOnly?</p>
+<p>如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索</p>
+<p>2.HttpOnly的设置样例</p>
+<figure]]>
+    </summary>
+    
+      <category term="HttpOnly" scheme="https://dengliming.github.io/tags/HttpOnly/"/>
+    
+      <category term="XSS" scheme="https://dengliming.github.io/tags/XSS/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[使用ngrok将本地Web服务映射到外网]]></title>

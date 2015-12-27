@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="ngrok," />
+  <meta name="keywords" content="HttpOnly,XSS," />
 
 
 
@@ -53,41 +53,27 @@
 
 
 
-<meta name="description" content="利用ngrok可以通过外网访问本地项目，这个对我们是非常有用的，比如我们平常开发的网站还没更新到线上，但是又需要通过外网可以访问到本地应用，方便测试。
-该工具使用方法非常简单。
-首先需要下载客户端
-下载地址：http://www.tunnel.mobi/
-
-下载以上两个文件。然后放到同一个目录
-
-然后在该目录打开命令行窗口输入命令：ngrok -config ngrok.cfg -subdomai">
+<meta name="description" content="1.什么是HttpOnly?
+如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索
+2.HttpOnly的设置样例
+12response.setHeader(&quot;Set-Cookie&quot;, &quot;cookiename=value;Path=/;Domain=domainvalue;Max-Age=s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用ngrok将本地Web服务映射到外网">
-<meta property="og:url" content="https://dengliming.github.io/2015/12/26/ngrok/index.html">
+<meta property="og:title" content="XSS与HttpOnly">
+<meta property="og:url" content="https://dengliming.github.io/2015/12/27/XSS与HttpOnly/index.html">
 <meta property="og:site_name" content="Dengliming's Blog">
-<meta property="og:description" content="利用ngrok可以通过外网访问本地项目，这个对我们是非常有用的，比如我们平常开发的网站还没更新到线上，但是又需要通过外网可以访问到本地应用，方便测试。
-该工具使用方法非常简单。
-首先需要下载客户端
-下载地址：http://www.tunnel.mobi/
-
-下载以上两个文件。然后放到同一个目录
-
-然后在该目录打开命令行窗口输入命令：ngrok -config ngrok.cfg -subdomai">
-<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/2015122601.jpg">
-<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/2015122602.png">
-<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/2015122603.png">
-<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/2015122604.png">
-<meta property="og:updated_time" content="2015-12-26T16:59:26.000Z">
+<meta property="og:description" content="1.什么是HttpOnly?
+如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索
+2.HttpOnly的设置样例
+12response.setHeader(&quot;Set-Cookie&quot;, &quot;cookiename=value;Path=/;Domain=domainvalue;Max-Age=s">
+<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/2015122702.png">
+<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/2015122701.png">
+<meta property="og:updated_time" content="2015-12-27T13:20:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用ngrok将本地Web服务映射到外网">
-<meta name="twitter:description" content="利用ngrok可以通过外网访问本地项目，这个对我们是非常有用的，比如我们平常开发的网站还没更新到线上，但是又需要通过外网可以访问到本地应用，方便测试。
-该工具使用方法非常简单。
-首先需要下载客户端
-下载地址：http://www.tunnel.mobi/
-
-下载以上两个文件。然后放到同一个目录
-
-然后在该目录打开命令行窗口输入命令：ngrok -config ngrok.cfg -subdomai">
+<meta name="twitter:title" content="XSS与HttpOnly">
+<meta name="twitter:description" content="1.什么是HttpOnly?
+如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索
+2.HttpOnly的设置样例
+12response.setHeader(&quot;Set-Cookie&quot;, &quot;cookiename=value;Path=/;Domain=domainvalue;Max-Age=s">
 
 
 
@@ -99,7 +85,7 @@
   };
 </script>
 
-  <title> 使用ngrok将本地Web服务映射到外网 | Dengliming's Blog </title>
+  <title> XSS与HttpOnly | Dengliming's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -260,7 +246,7 @@
             
             
               
-                使用ngrok将本地Web服务映射到外网
+                XSS与HttpOnly
               
             
           </h1>
@@ -269,8 +255,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-12-26T22:35:51+08:00" content="2015-12-26">
-              2015-12-26
+            <time itemprop="dateCreated" datetime="2015-12-27T21:12:51+08:00" content="2015-12-27">
+              2015-12-27
             </time>
           </span>
 
@@ -280,8 +266,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/26/ngrok/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/26/ngrok/" itemprop="commentsCount"></span>
+                <a href="/2015/12/27/XSS与HttpOnly/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/27/XSS与HttpOnly/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -300,17 +286,16 @@
       
 
       
-        <span itemprop="articleBody"><p>利用ngrok可以通过外网访问本地项目，这个对我们是非常有用的，比如我们平常开发的网站还没更新到线上，但是又需要通过外网可以访问到本地应用，方便测试。</p>
-<p>该工具使用方法非常简单。</p>
-<p>首先需要下载客户端</p>
-<p>下载地址：<a href="http://www.tunnel.mobi/" target="_blank" rel="external">http://www.tunnel.mobi/</a></p>
-<p><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122601.jpg" alt=""></p>
-<p>下载以上两个文件。然后放到同一个目录</p>
-<p><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122602.png" alt=""></p>
-<p>然后在该目录打开命令行窗口输入命令：<br>ngrok -config ngrok.cfg -subdomain dts 80<br>dts为配置的子域名 80是本地项目端口</p>
-<p>本地效果：<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122603.png" alt=""></p>
-<p>公网效果：<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122604.png" alt=""></p>
-<p>注：最近发现<a href="http://www.tunnel.mobi/" target="_blank" rel="external">http://www.tunnel.mobi/</a> 已经访问不了 不过有另外备用的可以使用：<a href="http://qydev.com/" target="_blank" rel="external">http://qydev.com/</a><br>这个微信demo开发有很大帮助。mark下</p>
+        <span itemprop="articleBody"><p>1.什么是HttpOnly?</p>
+<p>如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索</p>
+<p>2.HttpOnly的设置样例</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader("Set-Cookie", "cookiename=value;</span><br><span class="line">Path=/;Domain=domainvalue;Max-Age=seconds;HTTPOnly");</span><br></pre></td></tr></table></figure>
+<p>具体参数的含义再次不做阐述，设置完毕后通过js脚本是读不到该cookie的，但使用如下方式可以读取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie cookies[]=request.getCookies();</span><br></pre></td></tr></table></figure>
+<p>下面测试一下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language="java" contentType="text/html; charset=UTF-8"</span><br><span class="line">	pageEncoding="UTF-8"%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;</span><br><span class="line">&lt;title&gt;Insert title here&lt;/title&gt;</span><br><span class="line">&lt;%</span><br><span class="line">	response.setHeader("Set-Cookie",</span><br><span class="line">			"sessionId=abc;Path=/;Max-Age=20*60*1000;");</span><br><span class="line">%&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;script&gt;</span><br><span class="line">		alert(getCookie('sessionId'));</span><br><span class="line">		//读取cookies</span><br><span class="line">		function getCookie(name) &#123;</span><br><span class="line">			var nameEQ = name + "=";</span><br><span class="line">			var ca = document.cookie.split(';');</span><br><span class="line">			for (var i = 0; i &lt; ca.length; i++) &#123;</span><br><span class="line">				var c = ca[i];</span><br><span class="line">				while (c.charAt(0) == ' ')</span><br><span class="line">					c = c.substring(1, c.length);</span><br><span class="line">				if (c.indexOf(nameEQ) == 0)</span><br><span class="line">					return c.substring(nameEQ.length, c.length);</span><br><span class="line">			&#125;</span><br><span class="line">			return null;</span><br><span class="line">		&#125;</span><br><span class="line">	&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果为： abc<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122702.png" alt=""></p>
+<p>下面改成HttpOnly看看<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(<span class="string">"Set-Cookie"</span>,</span><br><span class="line">			<span class="string">"sessionId=abc;Path=/;Max-Age=20*60*1000;HttpOnly"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>运行结果为：null<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122701.png" alt=""></p>
 </span>
       
     </div>
@@ -319,7 +304,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ngrok/" rel="tag">#ngrok</a>
+            <a href="/tags/HttpOnly/" rel="tag">#HttpOnly</a>
+          
+            <a href="/tags/XSS/" rel="tag">#XSS</a>
           
         </div>
       
@@ -328,17 +315,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/06/redis之sds动态字符串/" rel="next" title="redis之sds动态字符串">
-                <i class="fa fa-chevron-left"></i> redis之sds动态字符串
+              <a href="/2015/12/26/ngrok/" rel="next" title="使用ngrok将本地Web服务映射到外网">
+                <i class="fa fa-chevron-left"></i> 使用ngrok将本地Web服务映射到外网
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/12/27/XSS与HttpOnly/" rel="prev" title="XSS与HttpOnly">
-                XSS与HttpOnly <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -365,8 +348,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/12/26/ngrok/"
-           data-title="使用ngrok将本地Web服务映射到外网" data-url="https://dengliming.github.io/2015/12/26/ngrok/">
+      <div class="ds-thread" data-thread-key="2015/12/27/XSS与HttpOnly/"
+           data-title="XSS与HttpOnly" data-url="https://dengliming.github.io/2015/12/27/XSS与HttpOnly/">
       </div>
     
   </div>
