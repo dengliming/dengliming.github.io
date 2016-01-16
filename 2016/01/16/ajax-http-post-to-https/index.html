@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="HttpOnly,XSS," />
+  <meta name="keywords" content="ajax,http,https," />
 
 
 
@@ -53,27 +53,23 @@
 
 
 
-<meta name="description" content="1.什么是HttpOnly?
-如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索
-2.HttpOnly的设置样例
-12response.setHeader(&quot;Set-Cookie&quot;, &quot;cookiename=value;Path=/;Domain=domainvalue;Max-Age=s">
+<meta name="description" content="在本地同一个域http页面请求https页面，其实已经跨域了，我们知道出于安全问题的考虑，浏览器是不允许跨域访问的，那么如果使用ajax来实现跨域访问呢，开发中常用的解决方法很多，比较常用的是JSONP方法、window.name，JSONP方法是一种非官方方法，而且这种方法只支持GET方式，不如POST方式安全。即使使用jquery的jsonp方法，type设为POST，也会自动变为GET
+经查">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XSS与HttpOnly">
-<meta property="og:url" content="https://dengliming.github.io/2015/12/27/XSS-and-HttpOnly/index.html">
+<meta property="og:title" content="ajax http post to https">
+<meta property="og:url" content="https://dengliming.github.io/2016/01/16/ajax-http-post-to-https/index.html">
 <meta property="og:site_name" content="Dengliming's Blog">
-<meta property="og:description" content="1.什么是HttpOnly?
-如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索
-2.HttpOnly的设置样例
-12response.setHeader(&quot;Set-Cookie&quot;, &quot;cookiename=value;Path=/;Domain=domainvalue;Max-Age=s">
-<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/2015122702.png">
-<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/2015122701.png">
-<meta property="og:updated_time" content="2015-12-27T13:20:21.000Z">
+<meta property="og:description" content="在本地同一个域http页面请求https页面，其实已经跨域了，我们知道出于安全问题的考虑，浏览器是不允许跨域访问的，那么如果使用ajax来实现跨域访问呢，开发中常用的解决方法很多，比较常用的是JSONP方法、window.name，JSONP方法是一种非官方方法，而且这种方法只支持GET方式，不如POST方式安全。即使使用jquery的jsonp方法，type设为POST，也会自动变为GET
+经查">
+<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/78892217.png">
+<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/78924244.png">
+<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/79044598.png">
+<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/79534410.png">
+<meta property="og:updated_time" content="2016-01-16T14:38:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XSS与HttpOnly">
-<meta name="twitter:description" content="1.什么是HttpOnly?
-如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索
-2.HttpOnly的设置样例
-12response.setHeader(&quot;Set-Cookie&quot;, &quot;cookiename=value;Path=/;Domain=domainvalue;Max-Age=s">
+<meta name="twitter:title" content="ajax http post to https">
+<meta name="twitter:description" content="在本地同一个域http页面请求https页面，其实已经跨域了，我们知道出于安全问题的考虑，浏览器是不允许跨域访问的，那么如果使用ajax来实现跨域访问呢，开发中常用的解决方法很多，比较常用的是JSONP方法、window.name，JSONP方法是一种非官方方法，而且这种方法只支持GET方式，不如POST方式安全。即使使用jquery的jsonp方法，type设为POST，也会自动变为GET
+经查">
 
 
 
@@ -85,7 +81,7 @@
   };
 </script>
 
-  <title> XSS与HttpOnly | Dengliming's Blog </title>
+  <title> ajax http post to https | Dengliming's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -246,7 +242,7 @@
             
             
               
-                XSS与HttpOnly
+                ajax http post to https
               
             
           </h1>
@@ -255,19 +251,34 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-12-27T21:12:51+08:00" content="2015-12-27">
-              2015-12-27
+            <time itemprop="dateCreated" datetime="2016-01-16T22:19:51+08:00" content="2016-01-16">
+              2016-01-16
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ajax/" itemprop="url" rel="index">
+                    <span itemprop="name">ajax</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/27/XSS-and-HttpOnly/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/27/XSS-and-HttpOnly/" itemprop="commentsCount"></span>
+                <a href="/2016/01/16/ajax-http-post-to-https/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/16/ajax-http-post-to-https/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -286,16 +297,20 @@
       
 
       
-        <span itemprop="articleBody"><p>1.什么是HttpOnly?</p>
-<p>如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索</p>
-<p>2.HttpOnly的设置样例</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader("Set-Cookie", "cookiename=value;</span><br><span class="line">Path=/;Domain=domainvalue;Max-Age=seconds;HTTPOnly");</span><br></pre></td></tr></table></figure>
-<p>具体参数的含义再次不做阐述，设置完毕后通过js脚本是读不到该cookie的，但使用如下方式可以读取</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie cookies[]=request.getCookies();</span><br></pre></td></tr></table></figure>
-<p>下面测试一下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language="java" contentType="text/html; charset=UTF-8"</span><br><span class="line">	pageEncoding="UTF-8"%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;</span><br><span class="line">&lt;title&gt;Insert title here&lt;/title&gt;</span><br><span class="line">&lt;%</span><br><span class="line">	response.setHeader("Set-Cookie",</span><br><span class="line">			"sessionId=abc;Path=/;Max-Age=20*60*1000;");</span><br><span class="line">%&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;script&gt;</span><br><span class="line">		alert(getCookie('sessionId'));</span><br><span class="line">		//读取cookies</span><br><span class="line">		function getCookie(name) &#123;</span><br><span class="line">			var nameEQ = name + "=";</span><br><span class="line">			var ca = document.cookie.split(';');</span><br><span class="line">			for (var i = 0; i &lt; ca.length; i++) &#123;</span><br><span class="line">				var c = ca[i];</span><br><span class="line">				while (c.charAt(0) == ' ')</span><br><span class="line">					c = c.substring(1, c.length);</span><br><span class="line">				if (c.indexOf(nameEQ) == 0)</span><br><span class="line">					return c.substring(nameEQ.length, c.length);</span><br><span class="line">			&#125;</span><br><span class="line">			return null;</span><br><span class="line">		&#125;</span><br><span class="line">	&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>运行结果为： abc<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122702.png" alt=""></p>
-<p>下面改成HttpOnly看看<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(<span class="string">"Set-Cookie"</span>,</span><br><span class="line">			<span class="string">"sessionId=abc;Path=/;Max-Age=20*60*1000;HttpOnly"</span>);</span><br></pre></td></tr></table></figure></p>
-<p>运行结果为：null<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/2015122701.png" alt=""></p>
+        <span itemprop="articleBody"><p>在本地同一个域http页面请求https页面，其实已经跨域了，我们知道出于安全问题的考虑，浏览器是不允许跨域访问的，那么如果使用ajax来实现跨域访问呢，开发中常用的解决方法很多，比较常用的是JSONP方法、window.name，JSONP方法是一种非官方方法，而且这种方法只支持GET方式，不如POST方式安全。即使使用jquery的jsonp方法，type设为POST，也会自动变为GET</p>
+<p>经查资料：<br>如果跨域使用POST方式，可以使用创建一个隐藏的iframe来实现，但这样会比较麻烦<br>但是通过服务端设置Access-Control-Allow-Origin来实现跨越访问比较简单</p>
+<p>在这里只对Access-Control-Allow-Origin做个小测试<br>先新建两个jsp页面，一个是test.jsp用来发送请求，accept.jsp用来接收请求<br>test.jsp<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language="java" contentType="text/html; charset=UTF-8"</span><br><span class="line">	pageEncoding="UTF-8"%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;</span><br><span class="line">&lt;script src="js/jquery.min.js" type="text/javascript"&gt;&lt;/script&gt;</span><br><span class="line">&lt;title&gt;Insert title here&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;form id="form"&gt;</span><br><span class="line">		&lt;input name="t" value="123"/&gt;</span><br><span class="line">		&lt;input type="button" value="submit" onclick="ajaxSubmit(this)"/&gt;</span><br><span class="line">	&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	function ajaxSubmit(frm) &#123;</span><br><span class="line">		$.ajax(&#123;</span><br><span class="line">		    url: "/accept.jsp",</span><br><span class="line">		    type: "POST",</span><br><span class="line">		    data: $("#form").serialize(),</span><br><span class="line">		    success: function(result) &#123;</span><br><span class="line">		    	console.log(result);</span><br><span class="line">		    &#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>accept.jsp<br><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">"java"</span> contentType=<span class="string">"text/html; charset=UTF-8"</span></span><br><span class="line">	pageEncoding=<span class="string">"UTF-8"</span>%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">	out.println(<span class="string">"success--------&gt;"</span>);</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这里accept页面简单的输出success</p>
+<p>在浏览器上看看页面效果：<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/78892217.png" alt=""><br>点击submit之后 查看浏览器控制台 正常返回seccess<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/78924244.png" alt=""></p>
+<p>那么假设把test.jsp中form的提交的url改成https之后呢。PS：具体本地怎么测试https请参考另一篇<a href="https://dengliming.github.io/2016/01/16/openssl-generate-certificate/">本地openssl生成证书</a></p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">ajaxSubmit</span><span class="params">(frm)</span> </span>&#123;</span><br><span class="line">		$.ajax(&#123;</span><br><span class="line">		    url: <span class="string">"https://localhost/accept.jsp"</span>,</span><br><span class="line">		    type: <span class="string">"POST"</span>,</span><br><span class="line">		    data: $(<span class="string">"#form"</span>).serialize(),</span><br><span class="line">		    success: function(result) &#123;</span><br><span class="line">		    	console.log(result);</span><br><span class="line">		    &#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>再看看浏览器效果：出现No ‘Access-Control-Allow-Origin’ header is present on the requested resource<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/79044598.png" alt=""></p>
+<p>然后在accept.jp加入headerAccess-Control-Allow-Origin</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">"java"</span> contentType=<span class="string">"text/html; charset=UTF-8"</span></span><br><span class="line">	pageEncoding=<span class="string">"UTF-8"</span>%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">	response.setHeader(<span class="string">"Access-Control-Allow-Origin"</span>, <span class="string">"*"</span>);</span><br><span class="line">	out.println(<span class="string">"success--------&gt;"</span>);</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>表示允许任何域名跨域访问 一般线上不这么用，会指定某个域名<br>最后来看下效果：请求成功返回<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/79534410.png" alt=""></li>
+</ul>
 </span>
       
     </div>
@@ -304,9 +319,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/HttpOnly/" rel="tag">#HttpOnly</a>
+            <a href="/tags/ajax/" rel="tag">#ajax</a>
           
-            <a href="/tags/XSS/" rel="tag">#XSS</a>
+            <a href="/tags/http/" rel="tag">#http</a>
+          
+            <a href="/tags/https/" rel="tag">#https</a>
           
         </div>
       
@@ -315,17 +332,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/12/26/Using-ngrok-map-the-local-service-to-the-network/" rel="next" title="使用ngrok将本地Web服务映射到外网">
-                <i class="fa fa-chevron-left"></i> 使用ngrok将本地Web服务映射到外网
+              <a href="/2016/01/16/openssl-generate-certificate/" rel="next" title="本地openssl生成证书">
+                <i class="fa fa-chevron-left"></i> 本地openssl生成证书
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/01/16/openssl-generate-certificate/" rel="prev" title="本地openssl生成证书">
-                本地openssl生成证书 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -352,8 +365,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/12/27/XSS-and-HttpOnly/"
-           data-title="XSS与HttpOnly" data-url="https://dengliming.github.io/2015/12/27/XSS-and-HttpOnly/">
+      <div class="ds-thread" data-thread-key="2016/01/16/ajax-http-post-to-https/"
+           data-title="ajax http post to https" data-url="https://dengliming.github.io/2016/01/16/ajax-http-post-to-https/">
       </div>
     
   </div>
