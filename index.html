@@ -243,8 +243,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/12/27/XSS与HttpOnly/" itemprop="url">
-                  XSS与HttpOnly
+                <a class="post-title-link" href="/2016/01/16/openssl-generate-certificate/" itemprop="url">
+                  本地openssl生成证书
                 </a>
               
             
@@ -254,19 +254,34 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-12-27T21:12:51+08:00" content="2015-12-27">
-              2015-12-27
+            <time itemprop="dateCreated" datetime="2016-01-16T14:19:51+08:00" content="2016-01-16">
+              2016-01-16
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/https/" itemprop="url" rel="index">
+                    <span itemprop="name">https</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/27/XSS与HttpOnly/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/27/XSS与HttpOnly/" itemprop="commentsCount"></span>
+                <a href="/2016/01/16/openssl-generate-certificate/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/16/openssl-generate-certificate/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -288,15 +303,19 @@
         
           <span itemprop="articleBody">
             
-            1.什么是HttpOnly?
-如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索
-2.HttpOnly的设置样例
-12response.setHeader("Set-Cookie", "cookiename=value;Path=/;Domain=domainvalue;Max-Age=seconds;HTTPOnly");
-具体参数的含义再次不做阐述，设置完毕后通过js脚本是读不到该c
+            一、环境准备：
+
+ActivePerl下载 ActivePerl下载
+openssl下载 openssl下载
+microsoft visual studio 2008下载 microsoft visual studio 2008下载
+
+
+1.ActivePerl 安装下载msi文件之后直接安装，这里我安装到了D盘然后cd进入D:\Perl64\eg目录执行example.pl，如果出现Hello from ActivePerl!则说明已经安装成功
+2.VS2008安装可以参考 openssl下载
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/12/27/XSS与HttpOnly/" rel="contents">
+            <a class="btn" href="/2016/01/16/openssl-generate-certificate/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -339,7 +358,103 @@
             
               
                 
-                <a class="post-title-link" href="/2015/12/26/ngrok/" itemprop="url">
+                <a class="post-title-link" href="/2015/12/27/XSS-and-HttpOnly/" itemprop="url">
+                  XSS与HttpOnly
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-27T21:12:51+08:00" content="2015-12-27">
+              2015-12-27
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/27/XSS-and-HttpOnly/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/27/XSS-and-HttpOnly/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            1.什么是HttpOnly?
+如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索
+2.HttpOnly的设置样例
+12response.setHeader("Set-Cookie", "cookiename=value;Path=/;Domain=domainvalue;Max-Age=seconds;HTTPOnly");
+具体参数的含义再次不做阐述，设置完毕后通过js脚本是读不到该c
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/12/27/XSS-and-HttpOnly/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/26/Using-ngrok-map-the-local-service-to-the-network/" itemprop="url">
                   使用ngrok将本地Web服务映射到外网
                 </a>
               
@@ -361,8 +476,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/26/ngrok/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/26/ngrok/" itemprop="commentsCount"></span>
+                <a href="/2015/12/26/Using-ngrok-map-the-local-service-to-the-network/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/26/Using-ngrok-map-the-local-service-to-the-network/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -398,7 +513,7 @@
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/12/26/ngrok/" rel="contents">
+            <a class="btn" href="/2015/12/26/Using-ngrok-map-the-local-service-to-the-network/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -441,7 +556,7 @@
             
               
                 
-                <a class="post-title-link" href="/2015/07/06/redis之sds动态字符串/" itemprop="url">
+                <a class="post-title-link" href="/2015/07/06/The-SDS-of-redis-dynamic-string/" itemprop="url">
                   redis之sds动态字符串
                 </a>
               
@@ -478,8 +593,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/07/06/redis之sds动态字符串/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/06/redis之sds动态字符串/" itemprop="commentsCount"></span>
+                <a href="/2015/07/06/The-SDS-of-redis-dynamic-string/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/06/The-SDS-of-redis-dynamic-string/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -507,7 +622,7 @@ buf最后一个字节保存了空字符’\0’遵循c字符串以空字符结�
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/06/redis之sds动态字符串/" rel="contents">
+            <a class="btn" href="/2015/07/06/The-SDS-of-redis-dynamic-string/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -550,7 +665,7 @@ buf最后一个字节保存了空字符’\0’遵循c字符串以空字符结�
             
               
                 
-                <a class="post-title-link" href="/2015/06/21/Hexo搭建博客/" itemprop="url">
+                <a class="post-title-link" href="/2015/06/21/Hexo-build-blog/" itemprop="url">
                   Hexo搭建博客
                 </a>
               
@@ -587,8 +702,8 @@ buf最后一个字节保存了空字符’\0’遵循c字符串以空字符结�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/06/21/Hexo搭建博客/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/21/Hexo搭建博客/" itemprop="commentsCount"></span>
+                <a href="/2015/06/21/Hexo-build-blog/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/21/Hexo-build-blog/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -623,7 +738,7 @@ E:> npm install -g hexo
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/06/21/Hexo搭建博客/" rel="contents">
+            <a class="btn" href="/2015/06/21/Hexo-build-blog/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -687,21 +802,21 @@ E:> npm install -g hexo
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -744,7 +859,7 @@ E:> npm install -g hexo
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2015</span>
+  <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="icon-next-heart fa fa-heart"></i>
   </span>
