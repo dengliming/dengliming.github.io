@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="https://dengliming.github.io//"/>
-  <updated>2016-02-26T15:12:18.000Z</updated>
+  <updated>2016-02-26T15:18:06.000Z</updated>
   <id>https://dengliming.github.io//</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[dwr-quick-start-1]]></title>
+    <title><![CDATA[DWR快速入门（一）]]></title>
     <link href="https://dengliming.github.io/2016/02/26/dwr-quick-start-1/"/>
     <id>https://dengliming.github.io/2016/02/26/dwr-quick-start-1/</id>
     <published>2016-02-26T15:00:51.000Z</published>
-    <updated>2016-02-26T15:12:18.000Z</updated>
+    <updated>2016-02-26T15:18:06.000Z</updated>
     <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>DWR(Direct Web Remoting)是一个WEB远程调用框架.利用这个框架可以让AJAX开发变得很简单.利用DWR可以在客户端利用JavaScript直接调用服务端的Java方法并返回值给JavaScript就好像直接本地客户端调用一样</p>
 <h2 id="快速开始">快速开始</h2><h3 id="1-下载DWR_JAR_文件">1.下载DWR JAR 文件</h3><p>这里直接使用maven下载<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.directwebremoting<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>dwr<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">version</span>&gt;</span>3.0.1-RELEASE<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="2-下载Commons_Logging_JAR">2.下载Commons Logging JAR</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
