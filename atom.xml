@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="https://dengliming.github.io//"/>
-  <updated>2016-01-16T14:38:02.000Z</updated>
+  <updated>2016-02-26T15:12:18.000Z</updated>
   <id>https://dengliming.github.io//</id>
   
   <author>
@@ -14,6 +14,40 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[dwr-quick-start-1]]></title>
+    <link href="https://dengliming.github.io/2016/02/26/dwr-quick-start-1/"/>
+    <id>https://dengliming.github.io/2016/02/26/dwr-quick-start-1/</id>
+    <published>2016-02-26T15:00:51.000Z</published>
+    <updated>2016-02-26T15:12:18.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>DWR(Direct Web Remoting)是一个WEB远程调用框架.利用这个框架可以让AJAX开发变得很简单.利用DWR可以在客户端利用JavaScript直接调用服务端的Java方法并返回值给JavaScript就好像直接本地客户端调用一样</p>
+<h2 id="快速开始">快速开始</h2><h3 id="1-下载DWR_JAR_文件">1.下载DWR JAR 文件</h3><p>这里直接使用maven下载<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.directwebremoting<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>dwr<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">version</span>&gt;</span>3.0.1-RELEASE<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="2-下载Commons_Logging_JAR">2.下载Commons Logging JAR</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-web-xml配置DWR_servlet">3.web.xml配置DWR servlet</h3><p>在项目WEB-INF/web.xml里面添加以下配置<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">  &lt;display-name&gt;DWR Servlet&lt;/display-name&gt;</span><br><span class="line">  &lt;servlet-name&gt;dwr-invoker&lt;/servlet-name&gt;</span><br><span class="line">  &lt;servlet-class&gt;org.directwebremoting.servlet.DwrServlet&lt;/servlet-class&gt;</span><br><span class="line">  &lt;init-param&gt;</span><br><span class="line">     &lt;param-name&gt;debug&lt;/param-name&gt;</span><br><span class="line">     &lt;param-value&gt;true&lt;/param-value&gt;</span><br><span class="line">  &lt;/init-param&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;dwr-invoker&lt;/servlet-name&gt;</span><br><span class="line">  &lt;url-pattern&gt;/dwr/*&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-编写自定义java_bean">4.编写自定义java bean</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.test.bean;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">sayHello</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"hello"</span> + name ;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-创建dwr配置文件">5.创建dwr配置文件</h3><p>在WEB-INF下创建dwr.xml,配置如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!DOCTYPE dwr PUBLIC</span><br><span class="line">    "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN"</span><br><span class="line">    "http://getahead.org/dwr/dwr30.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">dwr</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">allow</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">create</span> <span class="attribute">creator</span>=<span class="value">"new"</span> <span class="attribute">javascript</span>=<span class="value">"JDate"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">param</span> <span class="attribute">name</span>=<span class="value">"class"</span> <span class="attribute">value</span>=<span class="value">"java.util.Date"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">create</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">create</span> <span class="attribute">creator</span>=<span class="value">"new"</span> <span class="attribute">javascript</span>=<span class="value">"Demo"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">param</span> <span class="attribute">name</span>=<span class="value">"class"</span> <span class="attribute">value</span>=<span class="value">"com.test.bean.Demo"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">create</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">allow</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">dwr</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="6-启动应用">6.启动应用</h3><p>启动应用并在浏览器访问<a href="http://localhost/dwr/" target="_blank" rel="external">http://localhost/dwr/</a><br><img src="http://7xjw47.com1.z0.glb.clouddn.com/15056296.png" alt=""></p>
+<p>具体怎么在我们的应用中利用他们来编写javascript呢?<br>点击Demo进入以下页面：<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/15094875.png" alt=""></p>
+<p>这个页面介绍了我们自定义的Javabean以及怎么通过javascript来调用，从内容中可以知道只需要在自己编写的html或者jsp页面中引入<br> <script type="text/javascript" src="/dwr/engine.js"></script><br>  <script type="text/javascript" src="/dwr/interface/Demo.js"></script><br>就可以调用Demo类中的方法了</p>
+<h3 id="7-编写测试html_TestDWR-html">7.编写测试html TestDWR.html</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="doctype">&lt;!doctype html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"dwr/engine.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"dwr/interface/Demo.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="haxe"></span><br><span class="line">	Demo.sayHello(<span class="string">'dwr'</span>, &#123;</span><br><span class="line">		  <span class="keyword">callback</span>: <span class="function"><span class="keyword">function</span><span class="params">(str)</span> </span>&#123;</span><br><span class="line">		  	alert(str);</span><br><span class="line">		  &#125;</span><br><span class="line">	&#125;);</span><br><span class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>至此可以看到页面js成功调用Demo类的sayHello方法返回字符串并弹窗显示，是不是有点意思。今天先搞个小demo，有时间接着深入理解原理，呵呵。</p>
+<p>参考：</p>
+<blockquote>
+<ul>
+<li><a href="http://directwebremoting.org/dwr/introduction/getting-started.html" target="_blank" rel="external">DWR官网入门教程</a></li>
+</ul>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="前言">前言</h2><p>DWR(Direct Web Remoting)是一个WEB远程调用框架.利用这个框架可以让AJAX开发变得很简单.利用DWR可以在客户端利用JavaScript直接调用服务端的Java方法并返回值给JavaScript就好像直接本地客]]>
+    </summary>
+    
+      <category term="dwr" scheme="https://dengliming.github.io/tags/dwr/"/>
+    
+      <category term="dwr" scheme="https://dengliming.github.io/categories/dwr/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[ajax http post to https]]></title>
@@ -94,7 +128,7 @@
     <link href="https://dengliming.github.io/2015/12/27/XSS-and-HttpOnly/"/>
     <id>https://dengliming.github.io/2015/12/27/XSS-and-HttpOnly/</id>
     <published>2015-12-27T13:12:51.000Z</published>
-    <updated>2015-12-27T13:20:21.000Z</updated>
+    <updated>2016-02-26T15:15:37.000Z</updated>
     <content type="html"><![CDATA[<p>1.什么是HttpOnly?</p>
 <p>如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索</p>
 <p>2.HttpOnly的设置样例</p>
@@ -117,6 +151,8 @@
     
       <category term="XSS" scheme="https://dengliming.github.io/tags/XSS/"/>
     
+      <category term="notes" scheme="https://dengliming.github.io/categories/notes/"/>
+    
   </entry>
   
   <entry>
@@ -124,7 +160,7 @@
     <link href="https://dengliming.github.io/2015/12/26/Using-ngrok-map-the-local-service-to-the-network/"/>
     <id>https://dengliming.github.io/2015/12/26/Using-ngrok-map-the-local-service-to-the-network/</id>
     <published>2015-12-26T14:35:51.000Z</published>
-    <updated>2015-12-26T16:59:26.000Z</updated>
+    <updated>2016-02-26T15:15:34.000Z</updated>
     <content type="html"><![CDATA[<p>利用ngrok可以通过外网访问本地项目，这个对我们是非常有用的，比如我们平常开发的网站还没更新到线上，但是又需要通过外网可以访问到本地应用，方便测试。</p>
 <p>该工具使用方法非常简单。</p>
 <p>首先需要下载客户端</p>
@@ -145,6 +181,8 @@
     </summary>
     
       <category term="ngrok" scheme="https://dengliming.github.io/tags/ngrok/"/>
+    
+      <category term="notes" scheme="https://dengliming.github.io/categories/notes/"/>
     
   </entry>
   
@@ -194,7 +232,7 @@
     <link href="https://dengliming.github.io/2015/06/21/Hexo-build-blog/"/>
     <id>https://dengliming.github.io/2015/06/21/Hexo-build-blog/</id>
     <published>2015-06-21T13:19:51.000Z</published>
-    <updated>2015-12-26T16:59:21.000Z</updated>
+    <updated>2016-02-26T15:14:50.000Z</updated>
     <content type="html"><![CDATA[<h1 id="今天终于开通了我的博客，这是一个全新的开始。">今天终于开通了我的博客，这是一个全新的开始。</h1><p>下面是我搭建独立博客的过程</p>
 <p>准备工作：<br>Nodejs安装<br>Git安装<br>Hexo配置</p>
 <p>nodejs环境配置可参考资料<a href="http://www.cnblogs.com/bicabo/p/3630777.html" target="_blank" rel="external">nodejs环境配置</a></p>
@@ -280,7 +318,7 @@
     
       <category term="hexo" scheme="https://dengliming.github.io/tags/hexo/"/>
     
-      <category term="日志" scheme="https://dengliming.github.io/categories/%E6%97%A5%E5%BF%97/"/>
+      <category term="notes" scheme="https://dengliming.github.io/categories/notes/"/>
     
   </entry>
   
