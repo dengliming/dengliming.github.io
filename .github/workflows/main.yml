@@ -14,7 +14,7 @@ jobs:
           node-version: 12.x
       - name: Set Git Config
         env:
-          ACTION_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          ACTION_DEPLOY_KEY: ${{ secrets.ACTION_DEPLOY_KEY }}
         run: |
           mkdir -p ~/.ssh/
           echo "$ACTION_DEPLOY_KEY" | tr -d '\r' > ~/.ssh/id_rsa
