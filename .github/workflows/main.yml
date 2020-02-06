@@ -21,7 +21,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.name 'dengliming'
-          git config --global user.email 'liming.deng.pro@gmail.com'
+          git config --global user.email 'liming.d.pro@gmail.com'
       - name: Install Hexo
         run: |
           npm i -g hexo-cli 
