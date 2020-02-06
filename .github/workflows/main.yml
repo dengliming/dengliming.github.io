@@ -24,8 +24,7 @@ jobs:
           git config --global user.email 'liming.d.pro@gmail.com'
       - name: Install Hexo
         run: |
-          npm i -g hexo-cli 
-          npm i hexo-generator-sitemap --save
+          npm i -g hexo-cli
           npm i
       - name: Deploy Hexo
         run: |
