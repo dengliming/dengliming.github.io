@@ -2,69 +2,67 @@
 ## Docs: http://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
-# Site #Õ¾µãĞÅÏ¢
-title: Dengliming's Blog #±êÌâ
+# Site #ç«™ç‚¹ä¿¡æ¯
+title: Dengliming's Blog #æ ‡é¢˜
 subtitle: 
-description: dengliming blog #Õ¾µãÃèÊö£¬¸øËÑË÷ÒıÇæ¿´µÄ
-author: dengliming #×÷Õß
-email: liming.deng@foxmail.com #µç×ÓÓÊÏä
-language: zh-Hans #ÓïÑÔ
-# URL #Á´½Ó¸ñÊ½
-url: https://dengliming.github.io/ #ÍøÖ·
-root: / #¸ùÄ¿Â¼
-permalink: :year/:month/:day/:title/ #ÎÄÕÂµÄÁ´½Ó¸ñÊ½
-tag_dir: tags #±êÇ©Ä¿Â¼
-archive_dir: archives #´æµµÄ¿Â¼
-category_dir: categories #·ÖÀàÄ¿Â¼
+description: dengliming blog #ç«™ç‚¹æè¿°ï¼Œç»™æœç´¢å¼•æ“çœ‹çš„
+author: dengliming #ä½œè€…
+email: liming.deng@foxmail.com #ç”µå­é‚®ç®±
+language: zh-Hans #è¯­è¨€
+# URL #é“¾æ¥æ ¼å¼
+url: https://dengliming.github.io/ #ç½‘å€
+root: / #æ ¹ç›®å½•
+permalink: :year/:month/:day/:title/ #æ–‡ç« çš„é“¾æ¥æ ¼å¼
+tag_dir: tags #æ ‡ç­¾ç›®å½•
+archive_dir: archives #å­˜æ¡£ç›®å½•
+category_dir: categories #åˆ†ç±»ç›®å½•
 code_dir: downloads/code
 permalink_defaults:
-# Directory #Ä¿Â¼
-source_dir: source #Ô´ÎÄ¼şÄ¿Â¼
-public_dir: public #Éú³ÉµÄÍøÒ³ÎÄ¼şÄ¿Â¼
-# Writing #Ğ´×÷
-new_post_name: :title.md #ĞÂÎÄÕÂ±êÌâ
-default_layout: post #Ä¬ÈÏµÄÄ£°å£¬°üÀ¨ post¡¢page¡¢photo¡¢draft£¨ÎÄÕÂ¡¢Ò³Ãæ¡¢ÕÕÆ¬¡¢²İ¸å£©
-titlecase: false #±êÌâ×ª»»³É´óĞ´
-external_link: true #ÔÚĞÂÑ¡Ïî¿¨ÖĞ´ò¿ªÁ¬½Ó
+# Directory #ç›®å½•
+source_dir: source #æºæ–‡ä»¶ç›®å½•
+public_dir: public #ç”Ÿæˆçš„ç½‘é¡µæ–‡ä»¶ç›®å½•
+# Writing #å†™ä½œ
+new_post_name: :title.md #æ–°æ–‡ç« æ ‡é¢˜
+default_layout: post #é»˜è®¤çš„æ¨¡æ¿ï¼ŒåŒ…æ‹¬ postã€pageã€photoã€draftï¼ˆæ–‡ç« ã€é¡µé¢ã€ç…§ç‰‡ã€è‰ç¨¿ï¼‰
+titlecase: false #æ ‡é¢˜è½¬æ¢æˆå¤§å†™
+external_link: true #åœ¨æ–°é€‰é¡¹å¡ä¸­æ‰“å¼€è¿æ¥
 filename_case: 0
 render_drafts: false
 post_asset_folder: false
 relative_link: false
-highlight: #Óï·¨¸ßÁÁ
-  enable: true #ÊÇ·ñÆôÓÃ
-  line_number: true #ÏÔÊ¾ĞĞºÅ
+highlight: #è¯­æ³•é«˜äº®
+  enable: true #æ˜¯å¦å¯ç”¨
+  line_number: true #æ˜¾ç¤ºè¡Œå·
   tab_replace:
-# Category & Tag #·ÖÀàºÍ±êÇ©
-default_category: uncategorized #Ä¬ÈÏ·ÖÀà
+# Category & Tag #åˆ†ç±»å’Œæ ‡ç­¾
+default_category: uncategorized #é»˜è®¤åˆ†ç±»
 category_map:
 tag_map:
 # Archives
-2: ¿ªÆô·ÖÒ³
-1: ½ûÓÃ·ÖÒ³
-0: È«²¿½ûÓÃ
+2: å¼€å¯åˆ†é¡µ
+1: ç¦ç”¨åˆ†é¡µ
+0: å…¨éƒ¨ç¦ç”¨
 archive: 2
 category: 2
 tag: 2
-# Server #±¾µØ·şÎñÆ÷
-port: 4000 #¶Ë¿ÚºÅ
-server_ip: localhost #IP µØÖ·
+# Server #æœ¬åœ°æœåŠ¡å™¨
+port: 4000 #ç«¯å£å·
+server_ip: localhost #IP åœ°å€
 logger: false
 logger_format: dev
-# Date / Time format #ÈÕÆÚÊ±¼ä¸ñÊ½
-date_format: YYYY-MM-DD #²Î¿¼http://momentjs.com/docs/#/displaying/format/
+# Date / Time format #æ—¥æœŸæ—¶é—´æ ¼å¼
+date_format: YYYY-MM-DD #å‚è€ƒhttp://momentjs.com/docs/#/displaying/format/
 time_format: H:mm:ss
-# Pagination #·ÖÒ³
-per_page: 10 #Ã¿Ò³ÎÄÕÂÊı£¬ÉèÖÃ³É 0 ½ûÓÃ·ÖÒ³
+# Pagination #åˆ†é¡µ
+per_page: 10 #æ¯é¡µæ–‡ç« æ•°ï¼Œè®¾ç½®æˆ 0 ç¦ç”¨åˆ†é¡µ
 pagination_dir: page
-# Disqus #DisqusÆÀÂÛ£¬Ìæ»»Îª¶àËµ
+# Disqus #Disqusè¯„è®ºï¼Œæ›¿æ¢ä¸ºå¤šè¯´
 #disqus_shortname: 
 duoshuo_shortname: dengliming
-# Extensions #ÍØÕ¹²å¼ş
-theme: next #Ö÷Ìâ
+# Extensions #æ‹“å±•æ’ä»¶
+theme: next #ä¸»é¢˜
 exclude_generator:
-plugins: #²å¼ş£¬ÀıÈçÉú³É RSS ºÍÕ¾µãµØÍ¼µÄ
-- hexo-generator-feed
-- hexo-generator-sitemap
+plugins: #æ’ä»¶ï¼Œä¾‹å¦‚ç”Ÿæˆ RSS å’Œç«™ç‚¹åœ°å›¾çš„
 rss: \atom.xml
 
 # Deployment
