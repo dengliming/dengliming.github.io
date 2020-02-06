@@ -25,6 +25,7 @@ jobs:
       - name: Install Hexo
         run: |
           npm i -g hexo-cli 
+          npm i hexo-generator-sitemap --save
           npm i
       - name: Deploy Hexo
         run: |
