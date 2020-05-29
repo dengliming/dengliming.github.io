@@ -1,0 +1,734 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="redis,sds,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Dengliming's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=0.4.5.2">
+
+
+
+
+
+
+<meta name="description" content="redis&amp;#x4E4B;sds&amp;#x52A8;&amp;#x6001;&amp;#x5B57;&amp;#x7B26;&amp;#x4E32; redis&amp;#x5B9A;&amp;#x4E49;redis&amp;#x6E90;&amp;#x7801;&amp;#x4E2D;sds&amp;#x7684;&amp;#x7ED3;&amp;#x6784;&amp;#x662F;&amp;#x8FD9;&amp;#x6837;&amp;#x7684;&amp;#xFF1A;1234567891011121314 /* * &amp;">
+<meta name="keywords" content="redis,sds">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis之sds动态字符串">
+<meta property="og:url" content="https://dengliming.github.io/2015/07/06/The-SDS-of-redis-dynamic-string/index.html">
+<meta property="og:site_name" content="Dengliming&#39;s Blog">
+<meta property="og:description" content="redis&amp;#x4E4B;sds&amp;#x52A8;&amp;#x6001;&amp;#x5B57;&amp;#x7B26;&amp;#x4E32; redis&amp;#x5B9A;&amp;#x4E49;redis&amp;#x6E90;&amp;#x7801;&amp;#x4E2D;sds&amp;#x7684;&amp;#x7ED3;&amp;#x6784;&amp;#x662F;&amp;#x8FD9;&amp;#x6837;&amp;#x7684;&amp;#xFF1A;1234567891011121314 /* * &amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-05-29T02:42:52.975Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis之sds动态字符串">
+<meta name="twitter:description" content="redis&amp;#x4E4B;sds&amp;#x52A8;&amp;#x6001;&amp;#x5B57;&amp;#x7B26;&amp;#x4E32; redis&amp;#x5B9A;&amp;#x4E49;redis&amp;#x6E90;&amp;#x7801;&amp;#x4E2D;sds&amp;#x7684;&amp;#x7ED3;&amp;#x6784;&amp;#x662F;&amp;#x8FD9;&amp;#x6837;&amp;#x7684;&amp;#xFF1A;1234567891011121314 /* * &amp;">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> redis之sds动态字符串 | Dengliming's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1bef68316a9192173bdb793814b15267";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dengliming's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'SsRzvS4gtGNixVLBdjes','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                redis之sds动态字符串
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-07-06T23:30:51+00:00" content="2015-07-06">
+              2015-07-06
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/06/The-SDS-of-redis-dynamic-string/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/06/The-SDS-of-redis-dynamic-string/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="redis&#x4E4B;sds&#x52A8;&#x6001;&#x5B57;&#x7B26;&#x4E32;"><a href="#redis&#x4E4B;sds&#x52A8;&#x6001;&#x5B57;&#x7B26;&#x4E32;" class="headerlink" title="redis&#x4E4B;sds&#x52A8;&#x6001;&#x5B57;&#x7B26;&#x4E32;"></a>redis&#x4E4B;sds&#x52A8;&#x6001;&#x5B57;&#x7B26;&#x4E32;</h1><hr>
+<h2 id="redis&#x5B9A;&#x4E49;"><a href="#redis&#x5B9A;&#x4E49;" class="headerlink" title="redis&#x5B9A;&#x4E49;"></a>redis&#x5B9A;&#x4E49;</h2><p>redis&#x6E90;&#x7801;&#x4E2D;sds&#x7684;&#x7ED3;&#x6784;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/*</span></span><br><span class="line"><span class="comment"> * &#x4FDD;&#x5B58;&#x5B57;&#x7B26;&#x4E32;&#x5BF9;&#x8C61;&#x7684;&#x7ED3;&#x6784;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> {</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// buf &#x4E2D;&#x5DF2;&#x5360;&#x7528;&#x7A7A;&#x95F4;&#x7684;&#x957F;&#x5EA6;</span></span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// buf &#x4E2D;&#x5269;&#x4F59;&#x53EF;&#x7528;&#x7A7A;&#x95F4;&#x7684;&#x957F;&#x5EA6;</span></span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">free</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x6570;&#x636E;&#x7A7A;&#x95F4;</span></span><br><span class="line">    <span class="keyword">char</span> buf[];</span><br><span class="line">};</span><br></pre></td></tr></table></figure></p>
+<p>buf&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5B57;&#x8282;&#x4FDD;&#x5B58;&#x4E86;&#x7A7A;&#x5B57;&#x7B26;&#x2019;\0&#x2019;&#x9075;&#x5FAA;c&#x5B57;&#x7B26;&#x4E32;&#x4EE5;&#x7A7A;&#x5B57;&#x7B26;&#x7ED3;&#x5C3E;&#x7684;&#x60EF;&#x4F8B;&#xFF0C;&#x4FDD;&#x5B58;&#x7A7A;&#x5B57;&#x7B26;&#x7684;1&#x5B57;&#x8282;&#x7A7A;&#x95F4;&#x662F;&#x4E0D;&#x8BB0;&#x5728;len&#x91CC;&#x9762;</p>
+<h2 id="api&#x4E4B;sdslen"><a href="#api&#x4E4B;sdslen" class="headerlink" title="api&#x4E4B;sdslen"></a>api&#x4E4B;sdslen</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * &#x8FD4;&#x56DE; sds &#x5B9E;&#x9645;&#x4FDD;&#x5B58;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x957F;&#x5EA6;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * T = O(1)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">size_t</span> <span class="title">sdslen</span><span class="params">(<span class="keyword">const</span> sds s)</span> </span>{</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> *<span class="title">sh</span> = (<span class="title">void</span>*)(<span class="title">s</span>-(<span class="title">sizeof</span>(<span class="title">struct</span> <span class="title">sdshdr</span>)));</span></span><br><span class="line">    <span class="keyword">return</span> sh-&gt;len;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>&#x5176;&#x4E2D;&#x8981;&#x7406;&#x89E3;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;struct sdshdr <em>sh = (void</em>)(s-(sizeof(struct sdshdr)));</p>
+<p>&#x9700;&#x8981;&#x56DE;&#x987E;&#x4E0B;c&#x7684;&#x4E00;&#x4E9B;&#x57FA;&#x7840;&#x77E5;&#x8BC6;&#xFF1A;<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> {</span></span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="keyword">char</span> str[];</span><br><span class="line">} Node;</span><br><span class="line"><span class="keyword">sizeof</span>(<span class="keyword">char</span>*) = <span class="number">4</span></span><br><span class="line"><span class="keyword">sizeof</span>(Node*) = <span class="number">4</span></span><br><span class="line"><span class="keyword">sizeof</span>(Node2) = <span class="number">4</span></span><br></pre></td></tr></table></figure></p>
+<p>&#x524D;&#x4E24;&#x4E2A;&#x662F;&#x6307;&#x9488;&#x6240;&#x5360;&#x7684;&#x5B57;&#x8282;&#x662F;&#x7531;&#x7CFB;&#x7EDF;&#x7684;&#x5BFB;&#x5740;&#x80FD;&#x529B;&#x6709;&#x5173;&#xFF0C;&#x4EE5;&#x4E0A;&#x662F;32&#x4F4D;&#x7684;&#xFF0C;&#x540E;&#x9762;&#x90A3;&#x4E2A;<br>int len&#x5360;4&#x4E2A;&#x5B57;&#x8282;&#xFF0C;str[]&#x6682;&#x672A;&#x5206;&#x914D;&#x5185;&#x5B58;</p>
+<p>&#x7136;&#x540E;&#x770B;&#x4E0B;sds&#x521D;&#x59CB;&#x5316;&#x65B9;&#x6CD5;&#xFF1A;<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">sds <span class="title">sdsnewlen</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> *init, <span class="keyword">size_t</span> initlen)</span> </span>{</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> *<span class="title">sh</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x6839;&#x636E;&#x662F;&#x5426;&#x6709;&#x521D;&#x59CB;&#x5316;&#x5185;&#x5BB9;&#xFF0C;&#x9009;&#x62E9;&#x9002;&#x5F53;&#x7684;&#x5185;&#x5B58;&#x5206;&#x914D;&#x65B9;&#x5F0F;</span></span><br><span class="line">    <span class="comment">// T = O(N)</span></span><br><span class="line">    <span class="keyword">if</span> (init) {</span><br><span class="line">        <span class="comment">// zmalloc &#x4E0D;&#x521D;&#x59CB;&#x5316;&#x6240;&#x5206;&#x914D;&#x7684;&#x5185;&#x5B58;</span></span><br><span class="line">        sh = zmalloc(<span class="keyword">sizeof</span>(struct sdshdr)+initlen+<span class="number">1</span>);</span><br><span class="line">    } <span class="keyword">else</span> {</span><br><span class="line">        <span class="comment">// zcalloc &#x5C06;&#x5206;&#x914D;&#x7684;&#x5185;&#x5B58;&#x5168;&#x90E8;&#x521D;&#x59CB;&#x5316;&#x4E3A; 0</span></span><br><span class="line">        sh = zcalloc(<span class="keyword">sizeof</span>(struct sdshdr)+initlen+<span class="number">1</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x5185;&#x5B58;&#x5206;&#x914D;&#x5931;&#x8D25;&#xFF0C;&#x8FD4;&#x56DE;</span></span><br><span class="line">    <span class="keyword">if</span> (sh == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x8BBE;&#x7F6E;&#x521D;&#x59CB;&#x5316;&#x957F;&#x5EA6;</span></span><br><span class="line">    sh-&gt;len = initlen;</span><br><span class="line">    <span class="comment">// &#x65B0; sds &#x4E0D;&#x9884;&#x7559;&#x4EFB;&#x4F55;&#x7A7A;&#x95F4;</span></span><br><span class="line">    sh-&gt;<span class="built_in">free</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// &#x5982;&#x679C;&#x6709;&#x6307;&#x5B9A;&#x521D;&#x59CB;&#x5316;&#x5185;&#x5BB9;&#xFF0C;&#x5C06;&#x5B83;&#x4EEC;&#x590D;&#x5236;&#x5230; sdshdr &#x7684; buf &#x4E2D;</span></span><br><span class="line">    <span class="comment">// T = O(N)</span></span><br><span class="line">    <span class="keyword">if</span> (initlen &amp;&amp; init)</span><br><span class="line">        <span class="built_in">memcpy</span>(sh-&gt;buf, init, initlen);</span><br><span class="line">    <span class="comment">// &#x4EE5; \0 &#x7ED3;&#x5C3E;</span></span><br><span class="line">    sh-&gt;buf[initlen] = <span class="string">&apos;\0&apos;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x8FD4;&#x56DE; buf &#x90E8;&#x5206;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x6574;&#x4E2A; sdshdr</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">char</span>*)sh-&gt;buf;</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<p>&#x8FD9;&#x91CC;&#x9762;&#x8FD4;&#x56DE;sds&#x7684;&#x5730;&#x5740;&#x53EA;&#x8FD4;&#x56DE;&#x4E86;buf&#x90E8;&#x5206;&#xFF0C;&#x6240;&#x4EE5;&#x524D;&#x9762;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x83B7;&#x53D6;sds&#x7684;&#x957F;&#x5EA6;len&#x9700;&#x8981;&#x51CF;&#x53BB;(sizeof(struct sdshdr))&#x4E2A;&#x5B57;&#x8282;</p>
+<h2 id="api&#x4E4B;sdsfree"><a href="#api&#x4E4B;sdsfree" class="headerlink" title="api&#x4E4B;sdsfree"></a>api&#x4E4B;sdsfree</h2><p>&#x91CA;&#x653E;&#x7ED9;&#x5B9A;&#x7684;sds<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sdsfree</span><span class="params">(sds s)</span> </span>{</span><br><span class="line">    <span class="keyword">if</span> (s == <span class="literal">NULL</span>) <span class="keyword">return</span>;</span><br><span class="line">    zfree(s-<span class="keyword">sizeof</span>(struct sdshdr));</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<h2 id="api&#x4E4B;sdsclear"><a href="#api&#x4E4B;sdsclear" class="headerlink" title="api&#x4E4B;sdsclear"></a>api&#x4E4B;sdsclear</h2><p>&#x5728;&#x4E0D;&#x91CA;&#x653E; SDS &#x7684;&#x5B57;&#x7B26;&#x4E32;&#x7A7A;&#x95F4;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x91CD;&#x7F6E; SDS &#x6240;&#x4FDD;&#x5B58;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x4E3A;&#x7A7A;&#x5B57;&#x7B26;&#x4E32;&#x3002;T = O(1)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sdsclear</span><span class="params">(sds s)</span> </span>{</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x53D6;&#x51FA; sdshdr</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> *<span class="title">sh</span> = (<span class="title">void</span>*) (<span class="title">s</span>-(<span class="title">sizeof</span>(<span class="title">struct</span> <span class="title">sdshdr</span>)));</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x91CD;&#x65B0;&#x8BA1;&#x7B97;&#x5C5E;&#x6027;</span></span><br><span class="line">    sh-&gt;<span class="built_in">free</span> += sh-&gt;len;</span><br><span class="line">    sh-&gt;len = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x5C06;&#x7ED3;&#x675F;&#x7B26;&#x653E;&#x5230;&#x6700;&#x524D;&#x9762;&#xFF08;&#x76F8;&#x5F53;&#x4E8E;&#x60F0;&#x6027;&#x5730;&#x5220;&#x9664; buf &#x4E2D;&#x7684;&#x5185;&#x5BB9;&#xFF09;</span></span><br><span class="line">    sh-&gt;buf[<span class="number">0</span>] = <span class="string">&apos;\0&apos;</span>;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>&#x4E4B;&#x6240;&#x4EE5;sh-&gt;free += sh-&gt;len&#x662F;&#x56E0;&#x4E3A;redis&#x7684;&#x60F0;&#x6027;&#x7A7A;&#x95F4;&#x91CA;&#x653E;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5F53;sds&#x7F29;&#x77ED;&#x65F6;&#x7A0B;&#x5E8F;&#x5E76;&#x6CA1;&#x6709;&#x7ACB;&#x5373;&#x56DE;&#x6536;&#x7F29;&#x77ED;&#x7684;&#x5B57;&#x8282;&#xFF0C;&#x800C;&#x662F;&#x4F7F;&#x7528;free&#x5C5E;&#x6027;&#x8BB0;&#x5F55;&#x8D77;&#x6765;&#xFF0C;&#x7B49;&#x5F85;&#x5C06;&#x6765;&#x7684;&#x4F7F;&#x7528;&#xFF0C;&#x8FD9;&#x6837;&#x7684;&#x597D;&#x5904;&#x5C31;&#x662F;&#x4E0B;&#x4E00;&#x6B21;&#x6269;&#x5C55;sds&#x65F6;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x8FD9;&#x4E9B;&#x672A;&#x4F7F;&#x7528;&#x7684;&#x7A7A;&#x95F4;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x5185;&#x5B58;&#x3002;</p>
+<h2 id="api&#x4E4B;sdscat"><a href="#api&#x4E4B;sdscat" class="headerlink" title="api&#x4E4B;sdscat"></a>api&#x4E4B;sdscat</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">sds <span class="title">sdscat</span><span class="params">(sds s, <span class="keyword">const</span> <span class="keyword">char</span> *t)</span> </span>{</span><br><span class="line">    <span class="keyword">return</span> sdscatlen(s, t, <span class="built_in">strlen</span>(t));</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function">sds <span class="title">sdscatlen</span><span class="params">(sds s, <span class="keyword">const</span> <span class="keyword">void</span> *t, <span class="keyword">size_t</span> len)</span> </span>{</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> *<span class="title">sh</span>;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// &#x539F;&#x6709;&#x5B57;&#x7B26;&#x4E32;&#x957F;&#x5EA6;</span></span><br><span class="line">    <span class="keyword">size_t</span> curlen = sdslen(s);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x6269;&#x5C55; sds &#x7A7A;&#x95F4;</span></span><br><span class="line">    <span class="comment">// T = O(N)</span></span><br><span class="line">    s = sdsMakeRoomFor(s,len);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x5185;&#x5B58;&#x4E0D;&#x8DB3;&#xFF1F;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;</span></span><br><span class="line">    <span class="keyword">if</span> (s == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x590D;&#x5236; t &#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x5230;&#x5B57;&#x7B26;&#x4E32;&#x540E;&#x90E8;</span></span><br><span class="line">    <span class="comment">// T = O(N)</span></span><br><span class="line">    sh = (<span class="keyword">void</span>*) (s-(<span class="keyword">sizeof</span>(struct sdshdr)));</span><br><span class="line">    <span class="built_in">memcpy</span>(s+curlen, t, len);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x66F4;&#x65B0;&#x5C5E;&#x6027;</span></span><br><span class="line">    sh-&gt;len = curlen+len;</span><br><span class="line">    sh-&gt;<span class="built_in">free</span> = sh-&gt;<span class="built_in">free</span>-len;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x6DFB;&#x52A0;&#x65B0;&#x7ED3;&#x5C3E;&#x7B26;&#x53F7;</span></span><br><span class="line">    s[curlen+len] = <span class="string">&apos;\0&apos;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x8FD4;&#x56DE;&#x65B0; sds</span></span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>&#x53C2;&#x8003;&#xFF1A;</p>
+<blockquote>
+<ul>
+<li><a href="http://redisbook.com/" target="_blank" rel="noopener">redis&#x8BBE;&#x8BA1;&#x4E0E;&#x5B9E;&#x73B0;</a></li>
+<li><a href="https://github.com/huangz1990/redis-3.0-annotated" target="_blank" rel="noopener">&#x6CE8;&#x91CA;&#x7684;redis&#x6E90;&#x7801;</a></li>
+</ul>
+</blockquote>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag">#redis</a>
+          
+            <a href="/tags/sds/" rel="tag">#sds</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/21/Hexo-build-blog/" rel="next" title="Hexo搭建博客">
+                <i class="fa fa-chevron-left"></i> Hexo搭建博客
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/26/Using-ngrok-map-the-local-service-to-the-network/" rel="prev" title="使用ngrok将本地Web服务映射到外网">
+                使用ngrok将本地Web服务映射到外网 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/06/The-SDS-of-redis-dynamic-string/" data-title="redis之sds动态字符串" data-url="https://dengliming.github.io/2015/07/06/The-SDS-of-redis-dynamic-string/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="dengliming" itemprop="image">
+          <p class="site-author-name" itemprop="name">dengliming</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">dengliming blog</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#redis之sds动态字符串"><span class="nav-number">1.</span> <span class="nav-text">redis之sds动态字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#redis定义"><span class="nav-number">1.1.</span> <span class="nav-text">redis定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#api之sdslen"><span class="nav-number">1.2.</span> <span class="nav-text">api之sdslen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#api之sdsfree"><span class="nav-number">1.3.</span> <span class="nav-text">api之sdsfree</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#api之sdsclear"><span class="nav-number">1.4.</span> <span class="nav-text">api之sdsclear</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#api之sdscat"><span class="nav-number">1.5.</span> <span class="nav-text">api之sdscat</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dengliming</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"dengliming"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

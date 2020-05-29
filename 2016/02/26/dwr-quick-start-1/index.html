@@ -1,0 +1,731 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="dwr,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Dengliming's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=0.4.5.2">
+
+
+
+
+
+
+<meta name="description" content="&amp;#x524D;&amp;#x8A00;DWR(Direct Web Remoting)&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;WEB&amp;#x8FDC;&amp;#x7A0B;&amp;#x8C03;&amp;#x7528;&amp;#x6846;&amp;#x67B6;.&amp;#x5229;&amp;#x7528;&amp;#x8FD9;&amp;#x4E2A;&amp;#x6846;&amp;#x67B6;&amp;#x53EF;&amp;#x4EE5;&amp;#x8BA9;AJAX&amp;#x5F00;">
+<meta name="keywords" content="dwr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DWR快速入门（一）">
+<meta property="og:url" content="https://dengliming.github.io/2016/02/26/dwr-quick-start-1/index.html">
+<meta property="og:site_name" content="Dengliming&#39;s Blog">
+<meta property="og:description" content="&amp;#x524D;&amp;#x8A00;DWR(Direct Web Remoting)&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;WEB&amp;#x8FDC;&amp;#x7A0B;&amp;#x8C03;&amp;#x7528;&amp;#x6846;&amp;#x67B6;.&amp;#x5229;&amp;#x7528;&amp;#x8FD9;&amp;#x4E2A;&amp;#x6846;&amp;#x67B6;&amp;#x53EF;&amp;#x4EE5;&amp;#x8BA9;AJAX&amp;#x5F00;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/15056296.png">
+<meta property="og:image" content="http://7xjw47.com1.z0.glb.clouddn.com/15094875.png">
+<meta property="og:updated_time" content="2020-05-29T02:42:52.975Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DWR快速入门（一）">
+<meta name="twitter:description" content="&amp;#x524D;&amp;#x8A00;DWR(Direct Web Remoting)&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;WEB&amp;#x8FDC;&amp;#x7A0B;&amp;#x8C03;&amp;#x7528;&amp;#x6846;&amp;#x67B6;.&amp;#x5229;&amp;#x7528;&amp;#x8FD9;&amp;#x4E2A;&amp;#x6846;&amp;#x67B6;&amp;#x53EF;&amp;#x4EE5;&amp;#x8BA9;AJAX&amp;#x5F00;">
+<meta name="twitter:image" content="http://7xjw47.com1.z0.glb.clouddn.com/15056296.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> DWR快速入门（一） | Dengliming's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1bef68316a9192173bdb793814b15267";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dengliming's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input">
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'SsRzvS4gtGNixVLBdjes','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                DWR快速入门（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-02-26T23:00:51+00:00" content="2016-02-26">
+              2016-02-26
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/dwr/" itemprop="url" rel="index">
+                    <span itemprop="name">dwr</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/02/26/dwr-quick-start-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/26/dwr-quick-start-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="&#x524D;&#x8A00;"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</h2><p>DWR(Direct Web Remoting)&#x662F;&#x4E00;&#x4E2A;WEB&#x8FDC;&#x7A0B;&#x8C03;&#x7528;&#x6846;&#x67B6;.&#x5229;&#x7528;&#x8FD9;&#x4E2A;&#x6846;&#x67B6;&#x53EF;&#x4EE5;&#x8BA9;AJAX&#x5F00;&#x53D1;&#x53D8;&#x5F97;&#x5F88;&#x7B80;&#x5355;.&#x5229;&#x7528;DWR&#x53EF;&#x4EE5;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x5229;&#x7528;JavaScript&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x670D;&#x52A1;&#x7AEF;&#x7684;Java&#x65B9;&#x6CD5;&#x5E76;&#x8FD4;&#x56DE;&#x503C;&#x7ED9;JavaScript&#x5C31;&#x597D;&#x50CF;&#x76F4;&#x63A5;&#x672C;&#x5730;&#x5BA2;&#x6237;&#x7AEF;&#x8C03;&#x7528;&#x4E00;&#x6837;</p>
+<h2 id="&#x5FEB;&#x901F;&#x5F00;&#x59CB;"><a href="#&#x5FEB;&#x901F;&#x5F00;&#x59CB;" class="headerlink" title="&#x5FEB;&#x901F;&#x5F00;&#x59CB;"></a>&#x5FEB;&#x901F;&#x5F00;&#x59CB;</h2><h3 id="1&#x4E0B;&#x8F7D;dwr-jar-&#x6587;&#x4EF6;"><a href="#1-&#x4E0B;&#x8F7D;DWR-JAR-&#x6587;&#x4EF6;" class="headerlink" title="1.&#x4E0B;&#x8F7D;DWR JAR &#x6587;&#x4EF6;"></a>1.&#x4E0B;&#x8F7D;DWR JAR &#x6587;&#x4EF6;</h3><p>&#x8FD9;&#x91CC;&#x76F4;&#x63A5;&#x4F7F;&#x7528;maven&#x4E0B;&#x8F7D;<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.directwebremoting<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>dwr<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.1-RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="2&#x4E0B;&#x8F7D;commons-logging-jar"><a href="#2-&#x4E0B;&#x8F7D;Commons-Logging-JAR" class="headerlink" title="2.&#x4E0B;&#x8F7D;Commons Logging JAR"></a>2.&#x4E0B;&#x8F7D;Commons Logging JAR</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3webxml&#x914D;&#x7F6E;dwr-servlet"><a href="#3-web-xml&#x914D;&#x7F6E;DWR-servlet" class="headerlink" title="3.web.xml&#x914D;&#x7F6E;DWR servlet"></a>3.web.xml&#x914D;&#x7F6E;DWR servlet</h3><p>&#x5728;&#x9879;&#x76EE;WEB-INF/web.xml&#x91CC;&#x9762;&#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x914D;&#x7F6E;<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">  &lt;display-name&gt;DWR Servlet&lt;/display-name&gt;</span><br><span class="line">  &lt;servlet-name&gt;dwr-invoker&lt;/servlet-name&gt;</span><br><span class="line">  &lt;servlet-<span class="class"><span class="keyword">class</span>&gt;<span class="title">org</span>.<span class="title">directwebremoting</span>.<span class="title">servlet</span>.<span class="title">DwrServlet</span>&lt;/<span class="title">servlet</span>-<span class="title">class</span>&gt;</span></span><br><span class="line"><span class="class">  &lt;<span class="title">init</span>-<span class="title">param</span>&gt;</span></span><br><span class="line"><span class="class">     &lt;<span class="title">param</span>-<span class="title">name</span>&gt;<span class="title">debug</span>&lt;/<span class="title">param</span>-<span class="title">name</span>&gt;</span></span><br><span class="line"><span class="class">     &lt;<span class="title">param</span>-<span class="title">value</span>&gt;<span class="title">true</span>&lt;/<span class="title">param</span>-<span class="title">value</span>&gt;</span></span><br><span class="line"><span class="class">  &lt;/<span class="title">init</span>-<span class="title">param</span>&gt;</span></span><br><span class="line"><span class="class">&lt;/<span class="title">servlet</span>&gt;</span></span><br><span class="line"><span class="class">&lt;<span class="title">servlet</span>-<span class="title">mapping</span>&gt;</span></span><br><span class="line"><span class="class">  &lt;<span class="title">servlet</span>-<span class="title">name</span>&gt;<span class="title">dwr</span>-<span class="title">invoker</span>&lt;/<span class="title">servlet</span>-<span class="title">name</span>&gt;</span></span><br><span class="line"><span class="class">  &lt;<span class="title">url</span>-<span class="title">pattern</span>&gt;/<span class="title">dwr</span>/*&lt;/<span class="title">url</span>-<span class="title">pattern</span>&gt;</span></span><br><span class="line"><span class="class">&lt;/<span class="title">servlet</span>-<span class="title">mapping</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="4&#x7F16;&#x5199;&#x81EA;&#x5B9A;&#x4E49;java-bean"><a href="#4-&#x7F16;&#x5199;&#x81EA;&#x5B9A;&#x4E49;java-bean" class="headerlink" title="4.&#x7F16;&#x5199;&#x81EA;&#x5B9A;&#x4E49;java bean"></a>4.&#x7F16;&#x5199;&#x81EA;&#x5B9A;&#x4E49;java bean</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.test.bean;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>{</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">sayHello</span><span class="params">(String name)</span> </span>{</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;hello&quot;</span> + name ;</span><br><span class="line">	}</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="5&#x521B;&#x5EFA;dwr&#x914D;&#x7F6E;&#x6587;&#x4EF6;"><a href="#5-&#x521B;&#x5EFA;dwr&#x914D;&#x7F6E;&#x6587;&#x4EF6;" class="headerlink" title="5.&#x521B;&#x5EFA;dwr&#x914D;&#x7F6E;&#x6587;&#x4EF6;"></a>5.&#x521B;&#x5EFA;dwr&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h3><p>&#x5728;WEB-INF&#x4E0B;&#x521B;&#x5EFA;dwr.xml,&#x914D;&#x7F6E;&#x5982;&#x4E0B;&#xFF1A;<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">dwr</span> <span class="meta-keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta">    <span class="meta-string">&quot;-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">    <span class="meta-string">&quot;http://getahead.org/dwr/dwr30.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dwr</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">allow</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">create</span> <span class="attr">creator</span>=<span class="string">&quot;new&quot;</span> <span class="attr">javascript</span>=<span class="string">&quot;JDate&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">&quot;class&quot;</span> <span class="attr">value</span>=<span class="string">&quot;java.util.Date&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">create</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">create</span> <span class="attr">creator</span>=<span class="string">&quot;new&quot;</span> <span class="attr">javascript</span>=<span class="string">&quot;Demo&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">&quot;class&quot;</span> <span class="attr">value</span>=<span class="string">&quot;com.test.bean.Demo&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">create</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">allow</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dwr</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="6&#x542F;&#x52A8;&#x5E94;&#x7528;"><a href="#6-&#x542F;&#x52A8;&#x5E94;&#x7528;" class="headerlink" title="6.&#x542F;&#x52A8;&#x5E94;&#x7528;"></a>6.&#x542F;&#x52A8;&#x5E94;&#x7528;</h3><p>&#x542F;&#x52A8;&#x5E94;&#x7528;&#x5E76;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x8BBF;&#x95EE;<a href="http://localhost/dwr/" target="_blank" rel="noopener">http://localhost/dwr/</a><br><img src="http://7xjw47.com1.z0.glb.clouddn.com/15056296.png" alt></p>
+<p>&#x5177;&#x4F53;&#x600E;&#x4E48;&#x5728;&#x6211;&#x4EEC;&#x7684;&#x5E94;&#x7528;&#x4E2D;&#x5229;&#x7528;&#x4ED6;&#x4EEC;&#x6765;&#x7F16;&#x5199;javascript&#x5462;?<br>&#x70B9;&#x51FB;Demo&#x8FDB;&#x5165;&#x4EE5;&#x4E0B;&#x9875;&#x9762;&#xFF1A;<br><img src="http://7xjw47.com1.z0.glb.clouddn.com/15094875.png" alt></p>
+<p>&#x8FD9;&#x4E2A;&#x9875;&#x9762;&#x4ECB;&#x7ECD;&#x4E86;&#x6211;&#x4EEC;&#x81EA;&#x5B9A;&#x4E49;&#x7684;Javabean&#x4EE5;&#x53CA;&#x600E;&#x4E48;&#x901A;&#x8FC7;javascript&#x6765;&#x8C03;&#x7528;&#xFF0C;&#x4ECE;&#x5185;&#x5BB9;&#x4E2D;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#x53EA;&#x9700;&#x8981;&#x5728;&#x81EA;&#x5DF1;&#x7F16;&#x5199;&#x7684;html&#x6216;&#x8005;jsp&#x9875;&#x9762;&#x4E2D;&#x5F15;&#x5165;<br> <script type="text/javascript" src="/dwr/engine.js"></script><br>  <script type="text/javascript" src="/dwr/interface/Demo.js"></script><br>&#x5C31;&#x53EF;&#x4EE5;&#x8C03;&#x7528;Demo&#x7C7B;&#x4E2D;&#x7684;&#x65B9;&#x6CD5;&#x4E86;</p>
+<h3 id="7&#x7F16;&#x5199;&#x6D4B;&#x8BD5;html-testdwrhtml"><a href="#7-&#x7F16;&#x5199;&#x6D4B;&#x8BD5;html-TestDWR-html" class="headerlink" title="7.&#x7F16;&#x5199;&#x6D4B;&#x8BD5;html TestDWR.html"></a>7.&#x7F16;&#x5199;&#x6D4B;&#x8BD5;html TestDWR.html</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;dwr/engine.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;dwr/interface/Demo.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line">	Demo.sayHello(&apos;dwr&apos;, {</span><br><span class="line">		  callback: function(str) {</span><br><span class="line">		  	alert(str);</span><br><span class="line">		  }</span><br><span class="line">	});</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>&#x81F3;&#x6B64;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x9875;&#x9762;js&#x6210;&#x529F;&#x8C03;&#x7528;Demo&#x7C7B;&#x7684;sayHello&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x5B57;&#x7B26;&#x4E32;&#x5E76;&#x5F39;&#x7A97;&#x663E;&#x793A;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#x6709;&#x70B9;&#x610F;&#x601D;&#x3002;&#x4ECA;&#x5929;&#x5148;&#x641E;&#x4E2A;&#x5C0F;demo&#xFF0C;&#x6709;&#x65F6;&#x95F4;&#x63A5;&#x7740;&#x6DF1;&#x5165;&#x7406;&#x89E3;&#x539F;&#x7406;&#xFF0C;&#x5475;&#x5475;&#x3002;</p>
+<p>&#x53C2;&#x8003;&#xFF1A;</p>
+<blockquote>
+<ul>
+<li><a href="http://directwebremoting.org/dwr/introduction/getting-started.html" target="_blank" rel="noopener">DWR&#x5B98;&#x7F51;&#x5165;&#x95E8;&#x6559;&#x7A0B;</a></li>
+</ul>
+</blockquote>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/dwr/" rel="tag">#dwr</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/16/ajax-http-post-to-https/" rel="next" title="ajax http post to https">
+                <i class="fa fa-chevron-left"></i> ajax http post to https
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/08/nginx-forward_proxy/" rel="prev" title="nginx之正向代理">
+                nginx之正向代理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/02/26/dwr-quick-start-1/" data-title="DWR快速入门（一）" data-url="https://dengliming.github.io/2016/02/26/dwr-quick-start-1/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="dengliming" itemprop="image">
+          <p class="site-author-name" itemprop="name">dengliming</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">dengliming blog</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速开始"><span class="nav-number">2.</span> <span class="nav-text">快速开始</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1下载dwr-jar-文件"><span class="nav-number">2.1.</span> <span class="nav-text">1.下载DWR JAR 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2下载commons-logging-jar"><span class="nav-number">2.2.</span> <span class="nav-text">2.下载Commons Logging JAR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3webxml配置dwr-servlet"><span class="nav-number">2.3.</span> <span class="nav-text">3.web.xml配置DWR servlet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4编写自定义java-bean"><span class="nav-number">2.4.</span> <span class="nav-text">4.编写自定义java bean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5创建dwr配置文件"><span class="nav-number">2.5.</span> <span class="nav-text">5.创建dwr配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6启动应用"><span class="nav-number">2.6.</span> <span class="nav-text">6.启动应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7编写测试html-testdwrhtml"><span class="nav-number">2.7.</span> <span class="nav-text">7.编写测试html TestDWR.html</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dengliming</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"dengliming"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
