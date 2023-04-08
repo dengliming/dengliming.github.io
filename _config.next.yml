@@ -6,3 +6,47 @@ menu:
   tags: /tags/ || tags
   archives: /archives/ || archive
   RSS: /atom.xml || fa fa-rss
+
+sidebar:
+  position: right
+
+# Sidebar Avatar
+avatar:
+  url: /images/avatar.jpeg
+  rounded: true
+  opacity: 1
+  rotated: false
+
+social:
+  GitHub: https://github.com/dengliming || github
+  E-Mail: mailto:liming.d.pro@gmail.com || envelope
+
+social_icons:
+  # 是否启用社交链接图标
+  enable: true
+  # 是否只显示社交链接图标
+  icons_only: false
+  # 是否显示具有转换效果的社交链接图标
+  transition: false
+
+disqus:
+  enable: true
+  shortname: dengliming-blog
+  count: true
+
+footer:
+  since: 2015
+
+# Local search
+# Dependencies: https://github.com/next-theme/hexo-generator-searchdb
+local_search:
+  enable: true          # 这个部分原来是false
+  # If auto, trigger search by changing input.
+  # If manual, trigger search by pressing enter key or search button.
+  trigger: auto
+  # Show top n results per article, show all results by setting to -1
+  top_n_per_article: 1
+  # Unescape html strings to the readable one.
+  unescape: false
+  # Preload the search data when the page loads.
+  preload: false

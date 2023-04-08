@@ -64,3 +64,9 @@ theme: next #主题
 exclude_generator:
 plugins: #插件，例如生成 RSS 和站点地图的
 rss: \atom.xml
+
+search:
+  path: search.xml
+  field: post
+  content: true
+  format: html
