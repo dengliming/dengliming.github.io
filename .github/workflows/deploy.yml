@@ -1,0 +1,26 @@
+name: Website Deploy
+on: 
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Blog Branch
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: "16"
+      - name: Build Site
+        run: npm run build
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          publish_branch: gh-pages
+          publish_dir: ./public

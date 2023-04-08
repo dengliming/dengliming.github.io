@@ -5,9 +5,9 @@
 # Site #站点信息
 title: Dengliming's Blog #标题
 subtitle: 
-description: dengliming blog #站点描述，给搜索引擎看的
-author: dengliming #作者
-email: liming.deng@foxmail.com #电子邮箱
+description: DengLiming's Blog #站点描述，给搜索引擎看的
+author: Liming Deng #作者
+email: liming.d.pro@gmail.com #电子邮箱
 language: zh-Hans #语言
 # URL #链接格式
 url: https://dengliming.github.io/ #网址
@@ -64,10 +64,3 @@ theme: next #主题
 exclude_generator:
 plugins: #插件，例如生成 RSS 和站点地图的
 rss: \atom.xml
-
-# Deployment
-## Docs: http://hexo.io/docs/deployment.html
-deploy:
-  type: git
-  repo: git@github.com:dengliming/dengliming.github.io.git
-  branch: master
