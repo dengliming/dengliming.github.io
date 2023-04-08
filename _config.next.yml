@@ -1,0 +1,8 @@
+scheme: Mist
+
+menu:
+  home: / || home
+  categories: /categories/ || th
+  tags: /tags/ || tags
+  archives: /archives/ || archive
+  RSS: /atom.xml || fa fa-rss

@@ -8,7 +8,7 @@ categories: notes
 
 1.什么是HttpOnly?
 
-如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索
+如果您在cookie中设置了HttpOnly属性，那么通过js脚本将无法读取到cookie信息，这样能有效的防止XSS攻击，具体一点的介绍请google进行搜索<!-- more -->
 
 2.HttpOnly的设置样例
 
@@ -57,7 +57,7 @@ Cookie cookies[]=request.getCookies();
 </html>
 ```
 运行结果为： abc
-![](http://7xjw47.com1.z0.glb.clouddn.com/2015122702.png)
+![](/images/2015122702.png)
 
 下面改成HttpOnly看看
 ```java
@@ -65,5 +65,5 @@ response.setHeader("Set-Cookie",
 			"sessionId=abc;Path=/;Max-Age=20*60*1000;HttpOnly");
 ```
 运行结果为：null
-![](http://7xjw47.com1.z0.glb.clouddn.com/2015122701.png)
+![](/images/2015122701.png)
 

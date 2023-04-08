@@ -7,7 +7,7 @@ categories: dwr
 ---
 ## 前言
 DWR(Direct Web Remoting)是一个WEB远程调用框架.利用这个框架可以让AJAX开发变得很简单.利用DWR可以在客户端利用JavaScript直接调用服务端的Java方法并返回值给JavaScript就好像直接本地客户端调用一样
-
+<!-- more -->
 ## 快速开始
 
 ### 1.下载DWR JAR 文件
@@ -77,11 +77,11 @@ public class Demo {
 
 ### 6.启动应用
 启动应用并在浏览器访问http://localhost/dwr/
-![](http://7xjw47.com1.z0.glb.clouddn.com/15056296.png)
+![](/images/15056296.png)
 
 具体怎么在我们的应用中利用他们来编写javascript呢?
 点击Demo进入以下页面：
-![](http://7xjw47.com1.z0.glb.clouddn.com/15094875.png)
+![](/images/15094875.png)
 
 这个页面介绍了我们自定义的Javabean以及怎么通过javascript来调用，从内容中可以知道只需要在自己编写的html或者jsp页面中引入
  <script type='text/javascript' src='/dwr/engine.js'></script>

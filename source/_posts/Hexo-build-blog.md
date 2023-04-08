@@ -8,7 +8,7 @@ categories: notes
 
 # 今天终于开通了我的博客，这是一个全新的开始。
 
-下面是我搭建独立博客的过程
+下面是我搭建独立博客的过程<!-- more -->
 
 准备工作：
 Nodejs安装
@@ -64,7 +64,7 @@ INFO  You are almost done! Don't forget to run 'npm install' before you start bl
  - 添加ssh公钥
 
  前两步比较简单，最终建成的仓库如下：
- ![](http://7xjw47.com1.z0.glb.clouddn.com/201506215.png)
+ ![](/images/201506215.png)
 
 第三步：添加ssh公钥
 
@@ -97,16 +97,16 @@ Identity added: /c/Users/DLM/.ssh/id_rsa (/c/Users/DLM/.ssh/id_rsa)
 > $ clip< ~/.ssh/id_rsa.pub
 
 然后到github上面，点击Settings
-![](http://7xjw47.com1.z0.glb.clouddn.com/201506211.png)
+![](/images/201506211.png)
 
 点击SSH keys
-![](http://7xjw47.com1.z0.glb.clouddn.com/201506212.jpg)
+![](/images/201506212.jpg)
 
 点击Add SSH key
-![](http://7xjw47.com1.z0.glb.clouddn.com/201506213.png)
+![](/images/201506213.png)
 
 输入Title，作为这个key的描述，然后这个Key就是刚刚拷贝的，你直接粘贴就好
-![](http://7xjw47.com1.z0.glb.clouddn.com/201506214.png)
+![](/images/201506214.png)
 
 最后测试一下是否成功了
 

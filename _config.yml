@@ -8,7 +8,7 @@ subtitle:
 description: DengLiming's Blog #站点描述，给搜索引擎看的
 author: Liming Deng #作者
 email: liming.d.pro@gmail.com #电子邮箱
-language: zh-Hans #语言
+language: zh-CN #语言
 # URL #链接格式
 url: https://dengliming.github.io/ #网址
 root: / #根目录

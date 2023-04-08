@@ -6,7 +6,7 @@ categories: https
 
 ---
 ## 前言
-在本地环境测试网站HTTPS是否能正确工作时同样需要用到证书，但由于本地环境一般没有公网IP，没有固定域名等原因，所以就会考虑采用非正式的证书，即会选择使用自签名证书(Self-signed SSL Certificate)
+在本地环境测试网站HTTPS是否能正确工作时同样需要用到证书，但由于本地环境一般没有公网IP，没有固定域名等原因，所以就会考虑采用非正式的证书，即会选择使用自签名证书(Self-signed SSL Certificate)<!-- more -->
 
 ## 一、环境准备：
 > * [ActivePerl下载](http://www.activestate.com/ActivePerl)
@@ -96,7 +96,7 @@ openssl x509 -req -CA ca.crt -CAkey ca.key -CAcreateserial -in client.csr -out c
 ```
 
 最后生成的文件如下：
-![](http://7xjw47.com1.z0.glb.clouddn.com/50139298.png)
+![](/images/50139298.png)
 
 ## 三、本地测试
 
@@ -202,6 +202,6 @@ http {
 配置好nginx之后nginx -s reload重新加载配置
 打开浏览器即可访问https://localhost/
 由于自行颁发的SSL证书不受浏览器信任，所以会出现
-![](http://7xjw47.com1.z0.glb.clouddn.com/50742788.png)
+![](/images/50742788.png)
 本地点击继续前往就行了
-![](http://7xjw47.com1.z0.glb.clouddn.com/50682384.png)
+![](/images/50682384.png)

@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout Blog Branch
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: Setup Node
         uses: actions/setup-node@v2.4.0
         with:

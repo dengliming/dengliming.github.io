@@ -4,16 +4,16 @@ tags:
 - HTTPSQS
 ---
 
-##HTTPSQS是什么?
+## HTTPSQS是什么?
 一款基于 HTTP GET/POST 协议的轻量级开源简单消息队列服务，
 使用 Tokyo Cabinet 的 B+Tree Key/Value 数据库来做数据的持久化存储。如需了解更多直接参考[张宴博客](http://zyan.cc/httpsqs/).
 
-##安装
+## 安装
 此次安装是在centos6.4系统上操作的
-安装可以直接参考[张宴博客](http://zyan.cc/httpsqs/)
+安装可以直接参考[张宴博客](http://zyan.cc/httpsqs/) <!-- more -->
 下面是我安装过程出现的一些问题：
 
-![](http://7xjw47.com1.z0.glb.clouddn.com/13449719.png)
+![](/images/13449719.png)
 
 
 安装gcc编译器即可
@@ -33,7 +33,7 @@ httpsqs -d -p 1218 -x /data0/queue
 
 测试下入队列
 http://127.0.0.1:1218/?name=my_queue&opt=put&data=经过URL编码的文本消息&auth=mypass123
-![](http://7xjw47.com1.z0.glb.clouddn.com/15645496.png)
+![](/images/15645496.png)
 
 接下来使用java客户端操作下（需下载httpsqs4j.jar）:
 ```java
@@ -76,12 +76,12 @@ my_queue
 test
 ```
 
-##总结
+## 总结
 VMware使用桥接方式
 /etc/init.d/iptables stop关闭防火墙
 
 
-##参考
+## 参考
 参考：
 > * [张宴博客][1]
 [1]: http://zyan.cc/httpsqs/

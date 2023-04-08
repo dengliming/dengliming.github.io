@@ -11,7 +11,7 @@ categories: ajax
 
 经查资料：
 如果跨域使用POST方式，可以使用创建一个隐藏的iframe来实现，但这样会比较麻烦
-但是通过服务端设置Access-Control-Allow-Origin来实现跨越访问比较简单
+但是通过服务端设置Access-Control-Allow-Origin来实现跨越访问比较简单<!-- more -->
 
 在这里只对Access-Control-Allow-Origin做个小测试
 先新建两个jsp页面，一个是test.jsp用来发送请求，accept.jsp用来接收请求
@@ -57,9 +57,9 @@ accept.jsp
 这里accept页面简单的输出success
 
 在浏览器上看看页面效果：
-![](http://7xjw47.com1.z0.glb.clouddn.com/78892217.png)
-点击submit之后 查看浏览器控制台 正常返回seccess
-![](http://7xjw47.com1.z0.glb.clouddn.com/78924244.png)
+![](/images/78892217.png)
+点击submit之后 查看浏览器控制台 正常返回success
+![](/images/78924244.png)
 
 那么假设把test.jsp中form的提交的url改成https之后呢。PS：具体本地怎么测试https请参考另一篇[本地openssl生成证书](https://dengliming.github.io/2016/01/16/openssl-generate-certificate/)
 
@@ -77,7 +77,7 @@ function ajaxSubmit(frm) {
 ```
 
 再看看浏览器效果：出现No 'Access-Control-Allow-Origin' header is present on the requested resource
-![](http://7xjw47.com1.z0.glb.clouddn.com/79044598.png)
+![](/images/79044598.png)
 
 然后在accept.jp加入headerAccess-Control-Allow-Origin
 
@@ -92,4 +92,4 @@ function ajaxSubmit(frm) {
 
 * 表示允许任何域名跨域访问 一般线上不这么用，会指定某个域名
 最后来看下效果：请求成功返回
-![](http://7xjw47.com1.z0.glb.clouddn.com/79534410.png)
+![](/images/79534410.png)
