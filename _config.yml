@@ -56,9 +56,6 @@ time_format: H:mm:ss
 # Pagination #分页
 per_page: 10 #每页文章数，设置成 0 禁用分页
 pagination_dir: page
-# Disqus #Disqus评论，替换为多说
-#disqus_shortname: 
-duoshuo_shortname: dengliming
 # Extensions #拓展插件
 theme: next #主题
 exclude_generator:
